@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{Website Title}}</title>
+    <script src="Scripts/HandlebarsCopy.js"></script>
+    <script src="ArticleInfo.js"></script>
+    <meta name="description" content={{Website Description}}>
+    <link rel="stylesheet" href="StyleSheets/main.css">
+    <!-- <script src="handlebars.js"></script> -->
+
+</head>
+
+<body>
+    <script id="template" type="text/x-handlebars-template">
+    <!-- <div class="Header"> -->
+    <h1 class="headerName">{{title}}</h1><br>
+    <!-- <span id="target"></span> -->
+    <!-- </div>
+    <div class="navBar">
+        <a href="Tickets.html"> <button>Test</button> </a>
+    </div> -->
+
+    <p>{{date}}</p>
+    <p>{{desc}}</p>
+    <p>{{img}}</p>
+    <p>{{article}}</p>
+
+    Comments:
+
+    <ul>
+        {{#each comment}}
+        <li>{{this.author}} - {{this.text}} @ {{this.date}}</li>
+        {{/each}}
+
+        </ol>
+
+    </script>
+    <div id="output"></div>
+    <script>
+        fill_template();
+
+    </script>
+    <!-- <button onclick="">Fill</button> -->
+
+</body>
+
+<!-- <script>
+    var src = document.getElementById("template");
+    var template = Handlebars.compile(src);
+    var rendered = template({ title: "History in the Past" })
+    document.getElementById("target").innerHTML = rendered;
+
+</script> -->
+
+
+</html>

@@ -1,0 +1,107 @@
+Instructions
+Overview
+Large Coursework Brief
+Your brief is to design and build a responsive website of a magazine or a newsletter. This may take the form of a topical or a news magazine or a newsletter for a club or society. 
+If possible this should represent a real situation. For example:
+
+Your web site should have 5 pages with different types of news and articles. Wherever possible sample content should be representative of the material for that web site. It should 
+have appropriate media, including video and sound clips if relevant. 
+
+In addition to the web site, you will include a report.html file with associated images etc. in your site's base directory. This will explain what you have learned in the process of 
+building your site, where you found your information, and how you have adapted any resources (if applicable). The outline template for the report can be found here:
+
+The specific items you should include in the report are outlined below and shown in the report template (they are also in the briefing doc below).
+
+
+
+Report
+Your report.html should contain the following (in this order):
+
+Your name
+
+Introduction: What is the essential story being told by your site and what type of structure did you choose to implement?
+
+Inspiration: State 3 things that have inspired you when creating your website (e.g. guest speakers, websites, artists, blogs).
+
+Accessibility: State 3 ways in which your site is accessible to those with different abilities and needs (for example those with visual impairment)
+
+Usability: State 3 ways in which you considered the usability of your site.    
+
+Learning: state 3 things you had to learn or find out to create your site. How did you achieve that?
+
+Evaluation I: What aspects of your work do you think were particularly successful? Why?    
+
+Evaluation II: What aspects of your work could be improved? How might you do things differently another time?
+
+Resources: What resources did you use in your work? List any sources of information, libraries, plugins, code or tools (you should also indicate inclusions from other sources 
+within your code using comments)
+
+Appendices: Site map (if useful), wireframes and mock-ups
+
+Materials from the Web
+You can use almost anything you like that you can find on the Web, but you should only use open source or material released without copyright (e.g. avoid anything that costs money, 
+has a copyright notice or requires registration to download). Being able to build on other people's ideas is an important skill.  
+
+It is essential that, on your report page (and, wherever possible, in your code) you describe what you have taken, where you took it from, and what you have done to it. 
+
+If you copy-and-paste something with little change, you must say that you have done it, it must conform to the standards, and you shouldn't expect many marks for it. You will get 
+credit for making imported code fit in with and enhance your own design, for understanding and using complex libraries, or for altering and enhancing material that you have used. 
+Showing you can adapt existing code is valuable. In order to be clear which material you have written and which you have used from elsewhere you will be expected to provide 
+comprehensive comments within your HTML, CSS and JavaScript files indicating code you have used, code you have adopted and edited and code that you have written.
+
+You should avoid using primarily server side or pre-compiled frameworks such as React or WebPack and, if you use CSS templates, for example with Bootstrap, make sure you customise it 
+enough to get credit for your own work.
+
+
+Review Criteria
+The marking criteria are as follows (each criterion carries 5% of the total mark):
+
+Site (20%):
+
+Navigable 5-pages site with working URLs hosted on the Coursera platform (note: single long sites with 5 sub-regions do not count as 5 pages)
+
+Tidy directory structure and clear file naming
+
+Site is accessible
+
+Site has good Content
+
+HTML (15%):
+
+HTML is valid and well-formed 
+
+HTML elements are well chosen, with semantic elements and attributes where possible
+
+Rich commenting of HTML
+
+CSS (25%):
+
+Use of shared, external stylesheets only
+
+CSS is used to make an appropriate, aesthetic design
+
+Layout is appropriate and interesting
+
+Website is responsive, with explicit responsive behaviour
+
+Rich commenting of CSS
+
+JavaScript (20%):
+
+JavaScript is successfully called and student-written code interacts with the DOM
+
+JavaScript has an essential role in some aspects of the website (e.g. image carousel)
+
+Advanced use is made of JavaScript, or a JS library is used in a sophisticated way
+
+Rich commenting of JavaScript
+
+Report (20%):
+
+Wireframes are comprehensive and representative. Mockups (and, where relevant, wireframes) reflect the responsive aspects of the site
+
+Accessible design
+
+Good design and planning (based mainly on Introduction, Inspiration, Usability and Learning sections)
+
+Reflection on work (the rest of the report) shows critical and analytical awareness
