@@ -1,10 +1,7 @@
-function fill_template() { 
-
-
-    
+async function fill_template() {     
     var data = {
         title: "History",
-        articleHeadline: "STory 1", 
+        articleHeadline: "Story 1", 
         date: "1-10-2020", 
         desc: "This is the description of the webpage", 
         img: null,
@@ -17,6 +14,7 @@ function fill_template() {
 'Pellentesque at eleifend neque, in bibendum elit. Mauris convallis et erat ut consequat. In accumsan ullamcorper volutpat. Proin vel sem imperdiet, maximus sem tempor, porttitor nisi. Ut id molestie massa. Suspendisse malesuada, risus vitae faucibus laoreet, tortor nunc euismod tellus, nec congue justo orci sed felis. Vivamus commodo, mi eget condimentum posuere, ex tellus dictum elit, at venenatis nibh nulla eget diam. Proin semper orci a mauris congue cursus. Integer eleifend posuere bibendum. Sed ut nisi sit amet erat rhoncus porttitor id laoreet eros. Donec ligula felis, egestas et mi sit amet, venenatis aliquam ante. Duis commodo turpis non sapien accumsan gravida. In bibendum pretium ante maximus tristique. Proin egestas nec justo id iaculis. Nam pharetra rhoncus varius.'+
 
 'Donec vestibulum blandit commodo. Vivamus lorem odio, egestas eget varius blandit, blandit ut purus. Morbi sed sapien sagittis lorem feugiat iaculis. Phasellus vulputate, nulla sit amet pulvinar rhoncus, turpis ligula facilisis neque, at pulvinar urna dui eget augue. Mauris eu est non arcu accumsan sagittis eu eu massa. Aenean scelerisque in sapien a sollicitudin. Sed at mi a diam porttitor rhoncus. Cras ante erat, commodo a vehicula tincidunt, eleifend sed justo. Vivamus eget lectus pulvinar neque fermentum imperdiet. Donec eros mi, placerat in vehicula sed, efficitur id massa.', 
+        author: "Lorem Ipsum",
         comment: [
             {
                 author: "Caleb",
@@ -36,8 +34,21 @@ function fill_template() {
         ]
     }
 
+    var generalInfo;
+    await fetch("./Information/en/WebsiteInfo.json")
+    .then((response) => response.json())
+        .then((json) => generalInfo = json);
+    
+    console.log(typeof data);
+    console.log(typeof generalInfo);
+    Object.assign(data, generalInfo);
+    console.log(data);
+
+
     var template = Handlebars.compile(document.querySelector("#template").innerHTML);
     var filled = template(data);
     document.querySelector("#output").innerHTML = filled;
-    console.log("Filled");
+
 }
+
+window.fill_template = fill_template;

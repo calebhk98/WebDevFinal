@@ -1,0 +1,14 @@
+{
+    "subjectHeadlines": "Headlines By Subject",
+    "CenturyHeadlines": "Headlines By Century", 
+    "aboutUs": "About Us", 
+    "videos": "Videos", 
+    "authorTitle": "Author:",
+    "commentTitle": "Comments:", 
+    "search": "Search...",
+    "tech":"Tech",
+    "science":"Science",
+    "health":"Health",
+    "education":"Education",
+    "politics":"Politics"
+}
