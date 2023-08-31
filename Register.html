@@ -6,15 +6,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-
-    <title>{{Website Title}}</title>
 
     <!-- A local copy of handlebars so that it works offline -->
     <script src="Scripts/HandlebarsCopy.js"></script>
     <script src="Scripts/ArticleInfo.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="Scripts/Register.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
 </head>
 
@@ -72,7 +70,7 @@
 
 
             </ul>
-            <a class="navbar-brand col-md-3 me-0" href="#">{{articleHeadline}}</a>
+            <a class="navbar-brand col-md-3 me-0" href="#">Register</a>
             <form class="col-12 col-md-auto mb-3 mb-md-0" role="search">
                 <input type="search" class="form-control" placeholder="{{SearchPlaceholder}}" aria-label="Search">
             </form>
@@ -85,34 +83,58 @@
 </nav>
 
 
-    <div class="mx-auto">
-        <p>{{date}}</p>
-        <p>{{desc}}</p>
-        <img src={{img}}>
-        <p>{{img}}</p>
-        <p>{{article}}</p>
-        <p>{{authorTitle}} {{author}} </p>
-        
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto">
+                <h3>Register</h3>
+                <form  id="registerForm">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" placeholder="Enter username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Enter password" required>
+                        <small id="passwordHelpBlock" class="form-text text-muted">
+                            Your password must be 3-5 words with spaces inbetween and atleast 1 special character and 1 number. 
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm password"
+                            required>
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="check">
+                        <label class="form-check-label" for="check">Remember me</label>
+                    </div>
+                    <button type="submit" class="registerBtn btn btn-primary">Register</button>
+                </form>
+            </div>
         </div>
-
-    {{commentTitle}}
-
-    <ul>
-        {{#each comment}}
-        <li>{{this.author}} - {{this.text}} @ {{this.date}}</li>
-        {{/each}}
-
-    </ul>
+    </div>
 
     </script>
     <div id="output"></div>
 
-    <script>
-                                                        fill_template();
-    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
+
+    <script>
+        fill_template();
+
+        submitRegistration();
+
+
+
+
+    </script>
 
 </body>
 

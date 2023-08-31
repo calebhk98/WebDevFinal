@@ -10,5 +10,9 @@
     "science":"Ciencia",
     "health":"Salud",
     "education":"Educación",
-    "politics":"Política"
+    "politics":"Política",
+    "websiteName": "Noticias a través de la historia",
+    "SearchPlaceholder": "Buscar...", 
+    "Login": "Acceso", 
+    "Sign-up": "Inscribirse"
 }
