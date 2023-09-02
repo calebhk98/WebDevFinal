@@ -94,8 +94,8 @@ async function submission() {
             var usernameQuery = usernameIndex.get(user.username);
             user.email = document.getElementById("email").value; 
             var emailQuery = table.get(user.email);
-            user.password = document.getElementById("password").value;
-            user.confirmPassword = document.getElementById("confirmPassword").value;
+            user.password = stringToHash(document.getElementById("password").value);
+            user.confirmPassword = stringToHash(document.getElementById("confirmPassword").value);
             user.check = document.getElementById("check").checked;
 
             var passwordWords = user.password.split(" ");
@@ -167,4 +167,22 @@ async function GrabSavedUsers() {
         .then((response) => response.json())
         .then((json) => users = json);
     return users;
+}
+
+
+//Got this from https://www.geeksforgeeks.org/how-to-create-hash-from-string-in-javascript/
+//This can be replaced by any other hash function that would be wanted. 
+function stringToHash(string) {
+             
+    let hash = 0;
+     
+    if (string.length == 0) return hash;
+     
+    for (i = 0; i < string.length; i++) {
+        char = string.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+    }
+     
+    return hash;
 }
