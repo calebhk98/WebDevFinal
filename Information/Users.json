@@ -2,5 +2,10 @@
     "username":"", 
     "password":"", 
     "email":""
+}, 
+{
+    "username":"calebhk98", 
+    "password":"a@b", 
+    "email":"a@b.com"
 }
 ]

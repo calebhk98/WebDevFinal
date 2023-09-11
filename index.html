@@ -1,43 +1,128 @@
 <!DOCTYPE html>
-<html>
-    
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Adventure Realm</title>
-        <meta name="description" content="Adventure Realm's website">
-        <link rel="stylesheet" href="StyleSheets/main.css">
-        <style>
-            
-            </style>
-    </head>
+<html lang="en">
 
-	<body>
-        <div class="Header">
-            <div class="dropdown">
-                <button><a href="index.html"><img src="Images\logo.png" alt="Adventure Realm Logo" width="90" height="90"></a></button>
-                <div class="dropdown-content">
-                    <a href="index.html">Main</a>
-                    <a href="Tickets.html">Tickets</a>
-                    <a href="Ride Info.html">Ride Info</a>
-                    <a href="FAQ.html">FAQ</a>
-                </div>                
-            </div>
-            <h1 class="headerName">Adventure Realm</h1><br>
-        </div>
-        <div class="navBar">
-            <a href="Tickets.html"> <button>Tickets</button> </a>
-            <a href="#"> <button>About Us</button></a>
-            <a href="#"> <button>Career</button></a>
-            <a href="FAQ.html"> <button>FAQ</button></a>
-            <a href="#"> <button>Social Media</button></a>
-            <a href="#"> <button>Contact Us</button></a>
-        </div>
-        <div id="IntroPage">
-            Directions to park:
-            <p>Directions</p>
-            <img src="Images\Bing.jfif" alt="Picture of a theme park">
-        </div>
+<head>
+    <!-- Needed for bootstrap -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>{{Website Title}}</title>
+
+<!-- A local copy of handlebars so that it works offline -->
+<script src="Scripts/HandlebarsCopy.js"></script>
+<script src="Scripts/Timeline.js"></script>
+<script>startUp();</script>
+<!-- <link href="StyleSheets/main.css" rel="stylesheet"> -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<link href="StyleSheets/main.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <script id="template" type="text/x-handlebars-template">
+        <nav class="navbar navbar-expand-md bg-body-tertiary rounded" aria-label="Thirteenth navbar example">
+            <div class="container-fluid">
+            
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample11"
+                    aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation">            
+                    <span class="navbar-toggler-icon"></span>    
+                </button>
         
-	</body>
+                <a class="mx-auto d-block d-md-none navbar-brand">HeadLines Through History</a>
+        
+        
+                <div class=" collapse navbar-collapse d-md-flex" id="navbarsExample11">
+        
+                    <ul class="navbar-nav col-md-6">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                {{subjectHeadlines}}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">{{tech}}</a></li>
+                                <li><a class="dropdown-item" href="#">{{science}}</a></li>
+                                <li><a class="dropdown-item" href="#">{{health}}</a></li>
+                                <li><a class="dropdown-item" href="#">{{education}}</a></li>
+                                <li><a class="dropdown-item" href="#">{{politics}}</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                {{CenturyHeadlines}}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">2100</a></li>
+                                <li><a class="dropdown-item" href="#">2000</a></li>
+                                <li><a class="dropdown-item" href="#">1900</a></li>
+                                <li><a class="dropdown-item" href="#">1800</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">{{aboutUs}}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">{{videos}}</a>
+                        </li>        
+                    </ul>
+                    <a class="navbar-brand col-md-3 me-0" href="#">HeadLines Through History</a>
+                    <form class="col-12 col-md-auto mb-3 mb-md-0" role="search">
+                        <input type="search" class="form-control" placeholder="{{SearchPlaceholder}}" aria-label="Search">
+                    </form>
+                    <div class="text-end">
+                        <a href="Login.html"><button type="button" class="btn btn-light text-dark mb-2">{{Login}}</button></a>
+                        <a href="Register.html"><button type="button" class="btn btn-primary">{{Sign-up}}</button></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+                   
+        
+            
+                                
+        <div class="timeline">
+            {{#each articles}}
+            {{#unless this.even}}
+            <div class="TimelineBox leftty">
+                <div class="timelineSummary">
+                    <h2>{{this.date}}</h2> 
+                    <p>{{this.articleHeadline}}</p>
+                    
+                </div>
+            </div>
+            {{/unless}}
+            {{#if this.even}}
+            <div class="TimelineBox rightty">
+                <div class="timelineSummary">
+                    <h2>{{this.date}}</h2>
+                    <p>{{this.articleHeadline}}</p>
+                </div>
+            </div>
+            {{/if}}
+            {{/each}}   
+        </div>
+    </script>
+    <div id="output"></div>
+    
+    <script>
+        fill_template();
+        var boxes = document.getElementsByClassName("TimelineBox");
+        console.log(boxes);
+        for (var i = 0; i < boxes.length; i++) {
+            
+            
+            boxes[i].onclick = function () {
+                window.location.href = "Article.html";
+
+            };
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</body>
+
 </html>

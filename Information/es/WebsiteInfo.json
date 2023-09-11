@@ -14,5 +14,15 @@
     "websiteName": "Noticias a través de la historia",
     "SearchPlaceholder": "Buscar...", 
     "Login": "Acceso", 
-    "Sign-up": "Inscribirse"
+    "Sign-up": "Inscribirse", 
+    "Register": "Registro", 
+    "Username": "Nombre de usuario",
+    "UsernamePrompt": "Introduzca su nombre de usuario", 
+    "Email": "Correo electrónico",
+    "EmailPrompt": "Ingrese correo electrónico", 
+    "Password": "Contraseña",
+    "PasswordPrompt": "Introducir la contraseña", 
+    "PasswordReq": "Su contraseña debe tener entre 3 y 5 palabras con espacios entre ellas y al menos 1 carácter especial y 1 número.", 
+    "ConfirmPassword": "Confirmar Contraseña",
+    "RememberMe": "Acuérdate de mí"
 }

@@ -14,5 +14,16 @@
     "websiteName": "News through History",
     "SearchPlaceholder": "Search...",
     "Login": "Login", 
-    "Sign-up": "Sign-up"
+    "Sign-up": "Sign-up", 
+    "Register": "Register", 
+    "Username": "Username",
+    "UsernamePrompt": "Enter Username", 
+    "Email": "Email",
+    "EmailPrompt": "Enter Email", 
+    "Password": "Password",
+    "PasswordPrompt": "Enter Password", 
+    "PasswordReq": "Your password must be 3-5 words with spaces inbetween and atleast 1 special character and 1 number.", 
+    "ConfirmPassword": "Confirm Password",
+    "RememberMe": "Remember me"
+
 }

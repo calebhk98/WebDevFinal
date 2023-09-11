@@ -11,6 +11,8 @@ async function submitRegistration() {
     if (!indexedDB) {
         console.log("IndexedDB could not be found in this browser.");
     }
+    var previousUsers = await GrabSavedUsers(); 
+    
 
     
     var request = await indexedDB.open("TimelineHistoriansDB");
@@ -37,19 +39,24 @@ async function submitRegistration() {
         //Sets the table for users, could use the email as the id        
         db = request.result;
         var users = db.createObjectStore("users", { keyPath: "email" });
+        
+        
+        // console.log(previousUsers); 
+        
 
         //Create a search so we can look by username
-        users.createIndex("users_username", "username", { unique: true });        
+        users.createIndex("users_username", "username", { unique: true });   
+        
+        users.transaction.oncomplete = function (event) { 
+            var transaction = db.transaction("users", "readwrite");
+            var table = transaction.objectStore("users");
+            for (puser in previousUsers) { 
+                table.add(previousUsers[puser]);
+            }
+            
+
+        }
     };
-
-
-    
-
-    
-    
-
-    
-    
 
 }
 
@@ -94,8 +101,8 @@ async function submission() {
             var usernameQuery = usernameIndex.get(user.username);
             user.email = document.getElementById("email").value; 
             var emailQuery = table.get(user.email);
-            user.password = stringToHash(document.getElementById("password").value);
-            user.confirmPassword = stringToHash(document.getElementById("confirmPassword").value);
+            user.password = document.getElementById("password").value;
+            user.confirmPassword = document.getElementById("confirmPassword").value;
             user.check = document.getElementById("check").checked;
 
             var passwordWords = user.password.split(" ");
@@ -125,39 +132,37 @@ async function submission() {
                 return;
             }
 
+            user.password = stringToHash(user.password);
+            user.confirmPassword = stringToHash(user.confirmPassword);
 
             usernameQuery.onsuccess = function () { 
                 console.log("Username Info: ");
                 
                 console.log(usernameQuery.result);
-                if (usernameQuery.result != undefined) { 
+                if (usernameQuery.result != undefined) {
+                    alert("Username is already in use");
                     transaction.abort();
                     return; 
                 }
             }
+            
 
             emailQuery.onsuccess = function () { 
                 console.log("Email Info: ");
                 console.log(emailQuery.result);
-                if (emailQuery.result != undefined) { 
+                if (emailQuery.result != undefined) {
+                    alert("Email is already in use");
                     transaction.abort();
                     return; 
                 }
             }  
             table.put(user);
-            transaction.oncomplete = function () {
-                
+            transaction.oncomplete = function () {                
                 console.log("Closing DB")
-                // db.close();
-            };
 
-            // var json = JSON.stringify(user);
-            // console.log(json);
-            // currentUsers.push(user);        
-            // console.log(currentUsers);
-
-        // perform validation and prevent submission if validation fails
-        
+                db.close();
+                window.location.href="Login.html";
+            };        
     });
 }
 
