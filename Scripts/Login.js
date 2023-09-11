@@ -25,24 +25,13 @@ async function submitLogin() {
     request.onsuccess = (event) => {
         db = event.target.result;
         console.log(db.objectStoreNames.contains("users"));
-        if (!db.objectStoreNames.contains("users")) {
-            createUserTable();
-        }
+        
 
         db.onerror = (event) => {
             console.error(`Database error: ${event.target.errorCode}`);
         };
         waitForElm("#LoginForm").then((elm) => { submission(); });
     };
-
-    //If the database doesn't exist yet
-    request.onupgradeneeded = function () {
-        //Sets the table for users, could use the email as the id        
-        db = request.result;
-        createUserTable();
-        
-    };
-
 }
 
 //Uses this function from 
@@ -72,76 +61,44 @@ async function submission() {
     var user = { };   
     
     form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            var transaction = db.transaction("users", "readwrite");
-            var table = transaction.objectStore("users");
-            var usernameIndex = table.index("users_username");
+        event.preventDefault();
+        var transaction = db.transaction("users", "readwrite");
+        var table = transaction.objectStore("users");
+        var usernameIndex = table.index("users_username");
+        
+        user.username = document.getElementById("username").value;
+        var usernameQuery = usernameIndex.get(user.username);            
+        var emailQuery = table.get(user.username);
+        user.password = document.getElementById("password").value;
+        user.check = document.getElementById("check").checked;
+        
+
+        
+        user.password = stringToHash(user.password);
+
+        usernameQuery.onsuccess = function () { 
+            console.log("Username Info: ");
+            var test = usernameQuery.result;
+            console.log(test);
+            attemptLogin(test, user);
             
-            user.username = document.getElementById("username").value;
-            var usernameQuery = usernameIndex.get(user.username);            
-            var emailQuery = table.get(user.username);
-            user.password = document.getElementById("password").value;
-            user.check = document.getElementById("check").checked;
-
-            
-
-           
-            var realUsername = false;
-            var realEmail = false;
-            user.password = stringToHash(user.password);
-
-            usernameQuery.onsuccess = function () { 
-                console.log("Username Info: ");
-                var test = usernameQuery.result;
-                
-                
-                console.log(test);
-                if (test != undefined) {
-                    if (test.password == user.password) { 
-                        console.log("Logged in");
-                        if (user.check) { 
-                            test.check = true;
-                        }
-                        SaveLogin(test);
-                    }
-                    realUsername = true;
-                    return; 
-                }
-            }
+        }
             
 
-            emailQuery.onsuccess = function () { 
-                console.log("Email Info: ");
-                var test = emailQuery.result;
-                console.log(test);
-                if (test != undefined) {
-                    realEmail = true;
-                    if (test.password == user.password) { 
-                        console.log("Logged in");
-                        if (user.check) { 
-                            test.check = true;
-                        }
-                        SaveLogin(test);
-                    }
-                    return; 
-                }
-            }  
-            transaction.oncomplete = function () {                
-                console.log("Closing DB");
-                // db.close();
-                window.location.href="Article.html";
-            };        
+        emailQuery.onsuccess = function () {
+            console.log("Email Info: ");
+            var test = emailQuery.result;
+            console.log(test);
+            attemptLogin(test, user);
+        }
+
+        transaction.oncomplete = function () {                
+            console.log("Closing DB");
+            // db.close();
+            window.location.href="Article.html";
+        };        
     });
 }
-
-async function GrabSavedUsers() { 
-    var users;
-    await fetch("./Information/Users.json")
-        .then((response) => response.json())
-        .then((json) => users = json);
-    return users;
-}
-
 
 //Got this from https://www.geeksforgeeks.org/how-to-create-hash-from-string-in-javascript/
 //This can be replaced by any other hash function that would be wanted. 
@@ -172,18 +129,15 @@ function SaveLogin(user) {
     }
 }
 
-function createUserTable() { 
-    var users = db.createObjectStore("users", { keyPath: "email" });
-
-    //Create a search so we can look by username
-    users.createIndex("users_username", "username", { unique: true });   
-    
-    users.transaction.oncomplete = function (event) { 
-        var transaction = db.transaction("users", "readwrite");
-        var table = transaction.objectStore("users");
-        for (puser in previousUsers) { 
-            table.add(previousUsers[puser]);
-        }               
-
+function attemptLogin(test, user) { 
+    if (test != undefined) {
+        if (test.password == user.password) { 
+            console.log("Logged in");
+            if (user.check) { 
+                test.check = true;
+            }
+            SaveLogin(test);
+        }
+        return; 
     }
 }

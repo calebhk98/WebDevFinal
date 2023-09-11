@@ -11,9 +11,6 @@ async function submitRegistration() {
     if (!indexedDB) {
         console.log("IndexedDB could not be found in this browser.");
     }
-    var previousUsers = await GrabSavedUsers(); 
-    
-
     
     var request = await indexedDB.open("TimelineHistoriansDB");
 
@@ -34,29 +31,7 @@ async function submitRegistration() {
         waitForElm("#registerForm").then((elm) => { submission(); });
     };
 
-    //If the database doesn't exist yet
-    request.onupgradeneeded = function () {
-        //Sets the table for users, could use the email as the id        
-        db = request.result;
-        var users = db.createObjectStore("users", { keyPath: "email" });
-        
-        
-        // console.log(previousUsers); 
-        
-
-        //Create a search so we can look by username
-        users.createIndex("users_username", "username", { unique: true });   
-        
-        users.transaction.oncomplete = function (event) { 
-            var transaction = db.transaction("users", "readwrite");
-            var table = transaction.objectStore("users");
-            for (puser in previousUsers) { 
-                table.add(previousUsers[puser]);
-            }
-            
-
-        }
-    };
+    
 
 }
 
@@ -164,14 +139,6 @@ async function submission() {
                 window.location.href="Login.html";
             };        
     });
-}
-
-async function GrabSavedUsers() { 
-    var users;
-    await fetch("./Information/Users.json")
-        .then((response) => response.json())
-        .then((json) => users = json);
-    return users;
 }
 
 

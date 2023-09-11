@@ -13,6 +13,7 @@
     <!-- A local copy of handlebars so that it works offline -->
     <script src="Scripts/HandlebarsCopy.js"></script>
     <script src="Scripts/ArticleInfo.js"></script>
+    <script src="Scripts/DatabaseCreation.js"></script>
     <script>startUp();</script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
@@ -33,7 +34,7 @@
 
             </button>
 
-            <a class="mx-auto d-block d-md-none navbar-brand">{{articleHeadline}}</a>
+            <a class="mx-auto d-block d-md-none navbar-brand" href="index.html">{{articleHeadline}}</a>
 
 
             <div class=" collapse navbar-collapse d-md-flex" id="navbarsExample11">
@@ -73,7 +74,7 @@
 
 
                 </ul>
-                <a class="navbar-brand col-md-3 me-0" href="#">{{articleHeadline}}</a>
+                <a class="navbar-brand col-md-3 me-0" href="index.html">{{articleHeadline}}</a>
                 <form class="col-12 col-md-auto mb-3 mb-md-0" role="search">
                     <input type="search" class="form-control" placeholder="{{SearchPlaceholder}}" aria-label="Search">
                 </form>
