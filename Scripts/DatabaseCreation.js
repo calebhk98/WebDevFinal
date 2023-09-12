@@ -1,10 +1,10 @@
-async function createDB() {
+export var db;
 
-
-}
+startUp();
  
 
-async function startUp() { 
+export async function startUp() { 
+    if (db) return;
     //Saves whichever indexedDB we need
     var indexedDB =
         window.indexedDB ||
@@ -18,7 +18,7 @@ async function startUp() {
     }
 
     
-    var request = await indexedDB.open("TimelineHistoriansDB");
+    var request = indexedDB.open("TimelineHistoriansDB");
 
     //If we can't get a database
     request.onerror = (event) => {
@@ -26,30 +26,34 @@ async function startUp() {
         console.error(event);
     };
 
-    //If the database already exists
-    request.onsuccess = (event) => {
-        db = event.target.result;
+    const openPromise = new Promise((resolve, reject) => {
+        //If the database already exists
+        request.onsuccess = (event) => {
+            db = event.target.result;
 
-        if (!db.objectStoreNames.contains("articles")) {
-            createArticleTable();
-        }
-        if (!db.objectStoreNames.contains("users")) {            
-            createUserTable();
-        }
+            if (!db.objectStoreNames.contains("articles")) {
+                createArticleTable();
+            }
+            if (!db.objectStoreNames.contains("users")) {
+                createUserTable();
+            }
 
-        db.onerror = (event) => {
-            console.error(`Database error: ${event.target.errorCode}`);
+            db.onerror = (event) => {
+                console.error(`Database error: ${event.target.errorCode}`);
+            };
+            resolve();
         };
-    };
 
-    //If the database doesn't exist yet
-    request.onupgradeneeded = function () {
-        //Sets the table for articles       
-        db = request.result;
-        createArticleTable();
-        createUserTable();
+        //If the database doesn't exist yet
+        request.onupgradeneeded = function () {
+            //Sets the table for articles       
+            db = request.result;
+            createArticleTable();
+            createUserTable();
         
-    };
+        };
+    });
+    return openPromise;
 }
 
 
@@ -74,7 +78,7 @@ function createArticleTable() {
             previousArticles => {
                 var transaction = db.transaction("articles", "readwrite");
                 var table = transaction.objectStore("articles");
-                for (particle in previousArticles) {
+                for (var particle in previousArticles) {
                     console.log("Adding Article: ",previousArticles);
                     table.add(previousArticles[particle]);
                 }
@@ -100,7 +104,7 @@ function createUserTable() {
             previousUsers => {
                 var transaction = db.transaction("users", "readwrite");
                 var table = transaction.objectStore("users");
-                for (puser in previousUsers) {
+                for (var puser in previousUsers) {
                     console.log("Adding User: ",previousUsers);
                     table.add(previousUsers[puser]);
                 }
@@ -122,13 +126,13 @@ async function GrabSavedArticles() {
     await fetch('../Information/ArticleIndexes.json')
     .then(response => response.json())
         .then(index => {
-            for (i in index.articles) { 
+            for (var i in index.articles) { 
                 articlePaths.push(index.articles[i]);
             }
         });
     
     
-    for (i in articlePaths) { 
+    for (var i in articlePaths) { 
         await fetch(articlePaths[i])
             .then(response => response.json())
             .then(articleData => {

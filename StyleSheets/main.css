@@ -20,6 +20,10 @@ body {
     margin: 0 auto;
 }
 
+.articleID{
+    visibility: hidden;
+}
+
 /* The actual timeline (the vertical ruler) */
 .timeline::after {
     content: '';

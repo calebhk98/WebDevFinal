@@ -1,38 +1,14 @@
-var db;
+// var db;
+import { db, startUp } from './DatabaseCreation.js';
+
+submitRegistration();
+
 async function submitRegistration() { 
-    //Saves whichever indexedDB we need
-    var indexedDB =
-        window.indexedDB ||
-        window.mozIndexedDB ||
-        window.webkitIndexedDB ||
-        window.msIndexedDB ||
-        window.shimIndexedDB;
     
-    if (!indexedDB) {
-        console.log("IndexedDB could not be found in this browser.");
-    }
-    
-    var request = await indexedDB.open("TimelineHistoriansDB");
-
-    //If we can't get a database
-    request.onerror = (event) => {
-        console.error("Why didn't you allow my web app to use IndexedDB?!");
-        console.error(event);
-    };
-
-    //If the database already exists
-    request.onsuccess = (event) => {
-        db = event.target.result;
-
-        db.onerror = (event) => {
-            console.error(`Database error: ${event.target.errorCode}`);
-        };
+    startUp().then(() => {
 
         waitForElm("#registerForm").then((elm) => { submission(); });
-    };
-
-    
-
+    });
 }
 
 //Uses this function from 
@@ -146,12 +122,12 @@ async function submission() {
 //This can be replaced by any other hash function that would be wanted. 
 function stringToHash(string) {
              
-    let hash = 0;
+    var hash = 0;
      
     if (string.length == 0) return hash;
      
-    for (i = 0; i < string.length; i++) {
-        char = string.charCodeAt(i);
+    for (var i = 0; i < string.length; i++) {
+        var char = string.charCodeAt(i);
         hash = ((hash << 5) - hash) + char;
         hash = hash & hash;
     }

@@ -1,44 +1,21 @@
+import { db, startUp } from './DatabaseCreation.js';
+fill_template();
+
 async function fill_template() {     
-    var data = [];
-    var articles = [];    
+    var data = [];   
     var lang = document.documentElement.lang;
-    var db;
     var generalInfo;
-    var even = 0;
-    var pair = [];
-    var articlePaths = [];
-    await fetch('../Information/ArticleIndexes.json')
-    .then(response => response.json())
-        .then(index => {
-            for (i in index.articles) { 
-                articlePaths.push(index.articles[i]);
-            }
-        });
+
+    
+    var articles;
+    await startUp();
+
+    articles = await FindArticles();
+    data.articles = DivideByEven(articles);
+
+
     
     
-    for (i in articlePaths) { 
-        await fetch(articlePaths[i])
-            .then(response => response.json())
-            .then(articleData => {
-                pair[even] = articleData;
-                var test = articleData;
-                                               
-                if (even) {
-                    test.even = true;
-                    even = 0;
-                }
-                else {
-                    test.even = false;                      
-                    even = 1;
-                }
-                articles.push(test);
-            });
-    }
-    
-    
-    
-    data.articles = articles;
-    console.log(data);
 
 
     await fetch("./Information/"+lang+"/WebsiteInfo.json")
@@ -51,7 +28,6 @@ async function fill_template() {
    
     console.log(data);
 
-
     var template = Handlebars.compile(document.querySelector("#template").innerHTML);
     var filled = await template(data);
     document.querySelector("#output").innerHTML = filled;
@@ -59,10 +35,73 @@ async function fill_template() {
     document.title = data.websiteName;
 
     var boxes = document.getElementsByClassName("TimelineBox");
-        console.log(boxes);
-        for (var i = 0; i < boxes.length; i++) {            
-            boxes[i].onclick = function () {
-                window.location.href = "Article.html";
-            };
+        
+    for (var i = 0; i < boxes.length; i++) {    
+        boxes[i].addEventListener('click', async function() {
+            var articleIdElement = this.getElementsByClassName("articleID")[0];                
+            var articleId = articleIdElement.textContent;
+            console.log("Clicked");
+
+            
+            console.log(articleId);
+
+            var transaction = db.transaction("articles", "readonly");
+            var table = transaction.objectStore("articles");
+            var clickedArticle = table.get(parseInt(articleId));
+
+            clickedArticle.onsuccess = function (event) { 
+                // console.log(clickedArticle);
+                // console.log(clickedArticle.result);
+                sessionStorage.setItem("Article",
+                    JSON.stringify(clickedArticle.result));
+
+            }
+
+            // 
+            // window.location.href = "Article.html";
+            
+        });
     }      
 }
+
+
+async function FindArticles() { 
+    return new Promise((resolve, reject) => {
+        var transaction = db.transaction("articles", "readonly");
+        var table = transaction.objectStore("articles");
+        var articleDateIndex = table.index("article_date");
+
+        var req = articleDateIndex.getAll();
+        
+        req.onsuccess = function (event) {
+            // The result can be accessed here safely
+            resolve(event.target.result);
+        }
+
+        // Set up an error handler
+        req.onerror = function (event) {
+            // Reject the promise with the error
+            reject(event.target.error);
+        }
+
+    }); 
+}
+
+
+function DivideByEven(articles) {     
+    var even = 0;
+
+    for (var i in articles) { 
+                                        
+        if (even) {
+            articles[i].even = true;
+            even = 0;
+        }
+        else {
+            articles[i].even = false;                      
+            even = 1;
+        }
+    }
+    return articles;
+}
+
