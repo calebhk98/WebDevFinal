@@ -1,8 +1,8 @@
 import { db, startUp } from './DatabaseCreation.js';
 fill_template();
 
-async function fill_template() {     
-    var data = [];   
+async function fill_template() {
+    var data = [];
     var lang = document.documentElement.lang;
     var generalInfo;
 
@@ -18,8 +18,8 @@ async function fill_template() {
     
 
 
-    await fetch("./Information/"+lang+"/WebsiteInfo.json")
-    .then((response) => response.json())
+    await fetch("./Information/" + lang + "/WebsiteInfo.json")
+        .then((response) => response.json())
         .then((json) => generalInfo = json);
     
 
@@ -28,11 +28,15 @@ async function fill_template() {
    
     console.log(data);
 
-    var template = Handlebars.compile(document.querySelector("#template").innerHTML);
-    var filled = await template(data);
-    document.querySelector("#output").innerHTML = filled;
-
-    document.title = data.websiteName;
+    fetch('Header.html')
+        .then(response => response.text())
+        .then(headInfo => {
+            Handlebars.registerPartial('header', headInfo);
+            var template = Handlebars.compile(document.querySelector("#template").innerHTML);
+            var filled = template(data);
+            document.querySelector("#output").innerHTML = filled;  
+            
+            document.title = data.websiteName;
 
     var boxes = document.getElementsByClassName("TimelineBox");
         
@@ -58,10 +62,15 @@ async function fill_template() {
             }
 
             // 
-            // window.location.href = "Article.html";
+            window.location.href = "Article.html";
             
         });
-    }      
+    }  
+    })
+
+    
+
+        
 }
 
 

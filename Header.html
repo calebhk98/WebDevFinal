@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-md bg-body-tertiary rounded" aria-label="Thirteenth navbar example">
+    <div class="container-fluid">
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample11"
+            aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <a href="index.html" class="mx-auto d-block d-md-none navbar-brand">HeadLines Through History</a>
+
+
+        <div class=" collapse navbar-collapse d-md-flex" id="navbarsExample11">
+
+            <ul class="navbar-nav col-md-6">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        {{subjectHeadlines}}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">{{tech}}</a></li>
+                        <li><a class="dropdown-item" href="#">{{science}}</a></li>
+                        <li><a class="dropdown-item" href="#">{{health}}</a></li>
+                        <li><a class="dropdown-item" href="#">{{education}}</a></li>
+                        <li><a class="dropdown-item" href="#">{{politics}}</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        {{CenturyHeadlines}}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">2100</a></li>
+                        <li><a class="dropdown-item" href="#">2000</a></li>
+                        <li><a class="dropdown-item" href="#">1900</a></li>
+                        <li><a class="dropdown-item" href="#">1800</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">{{aboutUs}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">{{videos}}</a>
+                </li>
+            </ul>
+            <a href="index.html" class="navbar-brand col-md-3 me-0" href="#">HeadLines Through History</a>
+            <form class="col-12 col-md-auto mb-3 mb-md-0" role="search">
+                <input type="search" class="form-control" placeholder="{{SearchPlaceholder}}" aria-label="Search">
+            </form>
+            <div class="text-end">
+                <a href="Login.html"><button type="button" class="btn btn-light text-dark mb-2">{{Login}}</button></a>
+                <a href="Register.html"><button type="button" class="btn btn-primary">{{Sign-up}}</button></a>
+            </div>
+        </div>
+    </div>
+</nav>
