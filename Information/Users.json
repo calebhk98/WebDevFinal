@@ -1,11 +1,11 @@
 [{
-    "username":"", 
-    "password":"", 
-    "email":""
-}, 
-{
-    "username":"calebhk98", 
-    "password":"a@b", 
-    "email":"a@b.com"
+  "username": "tah",
+  "email": "t@mail.com",
+  "password": -347565948,
+  "confirmPassword": -347565948,
+  "keepLoggedIn": true,
+  "articles": [],
+  "comments": [],
+  "premiumMember": false
 }
 ]

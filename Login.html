@@ -11,9 +11,10 @@
     <script src="Scripts/HandlebarsCopy.js"></script>
     <script type ="module" src="Scripts/ArticleInfo.js"></script>
     <script type ="module" src="Scripts/Login.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-
+    <link href="StyleSheets/main.css" rel="stylesheet">
 </head>
 
 <body>
@@ -30,9 +31,10 @@
                         <label for="username">{{Username}}/{{Email}}</label>
                         <input type="text" class="form-control" id="username" placeholder="{{UsernamePrompt}}" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group ">
                         <label for="password">{{Password}}</label>
                         <input type="password" class="form-control" id="password" placeholder="{{PasswordPrompt}}" required>
+                        <i class="bi bi-eye-slash" id="togglePassword"></i>
                     </div>
                     <div class="form-group form-check">
                         <input type="checkbox" class="form-check-input" id="check">

@@ -15,7 +15,7 @@ async function fill_template() {
         .then((response) => response.json())
             .then((json) => data = json);
     }
-    console.log(data);   
+    data.user = getLoggedInUser();
 
 
     await fetch("./Information/"+lang+"/WebsiteInfo.json")
@@ -25,7 +25,6 @@ async function fill_template() {
 
     Object.assign(data, generalInfo);
             
-    console.log(data);
 
 
     fetch('Header.html')
@@ -35,9 +34,48 @@ async function fill_template() {
             var template = Handlebars.compile(document.querySelector("#template").innerHTML);
             var filled = template(data);
             document.querySelector("#output").innerHTML = filled;    
+            ShowRelevantBtn();
     })
-
+    
     document.title = data.websiteName + "-" + data.articleHeadline;       
 
 }
 
+
+async function ShowRelevantBtn() { 
+    var login = await document.getElementsByClassName("loginInfo");
+    var accounts = await document.getElementsByClassName("UserInfo");
+    var test = JSON.parse(sessionStorage.getItem("loggedInUser"));        
+    var data = JSON.parse(localStorage.getItem("loggedInUser")); 
+    if (test != null) { 
+        data = test;
+    }
+
+    if (data != null) {
+        for (var i = 0; i < login.length; i++) {
+            login[i].style.display = 'none';
+        }
+        for (var i = 0; i < accounts.length; i++) {
+            accounts[i].style.display = '';
+        }
+    }
+    else { 
+        for (var i = 0; i < login.length; i++) {
+            login[i].style.display = '';
+        }
+        for (var i = 0; i < accounts.length; i++) {
+            accounts[i].style.display = 'none';
+        }
+    }
+}
+
+
+function getLoggedInUser() { 
+    var sessionUser = JSON.parse(sessionStorage.getItem("loggedInUser"));        
+    var longTermUser = JSON.parse(localStorage.getItem("loggedInUser")); 
+    if (sessionUser != null) { 
+        longTermUser = sessionUser;
+    }
+    return longTermUser;
+
+}

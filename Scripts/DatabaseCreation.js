@@ -53,7 +53,9 @@ export async function startUp() {
         
         };
     });
+    
     return openPromise;
+    
 }
 
 

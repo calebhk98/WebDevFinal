@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Needed for bootstrap -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <title>{{Website Title}}</title>
+
+    <!-- A local copy of handlebars so that it works offline -->
+    <script src="Scripts/HandlebarsCopy.js"></script>
+    <script type="module" src="Scripts/ArticleInfo.js"></script>
+    <script type="module" src="Scripts/newArticle.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href="StyleSheets/main.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <script id="template" type="text/x-handlebars-template">
+    {{>header}}
+
+
+    <form class="mx-auto ArticleForm" id="newArticleForm">
+        <br><br>
+        <label for="ArticleHeadline">Headline:</label>
+        <input type="text" id="ArticleHeadline" name="ArticleHeadline" size="50"><br><br>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" value="2023-09-01" />
+        <br>
+        <label for="desc">Article Description:</label>
+        <br>
+        <textarea id="desc" name="desc" rows="4" cols="50"></textarea>
+        <p>Image Upload is not available at the momment.</p>
+
+        <label for="Article">Article:</label>
+        <br>
+        <textarea id="Article" name="Article" rows="30" cols="100"></textarea>
+        <br>
+        <label for="ArticleTags">Tags:</label>
+        <input type="text" id="ArticleTags" name="ArticleTags" title="Use commas to split Tags."><br><br>
+        
+        
+        <input type="submit" value="Submit">
+        <br><br><br><br><br>
+    </form>
+        
+
+    </script>
+    <div id="output"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

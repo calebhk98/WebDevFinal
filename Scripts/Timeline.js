@@ -27,6 +27,8 @@ async function fill_template() {
     
    
     console.log(data);
+    
+    
 
     fetch('Header.html')
         .then(response => response.text())
@@ -38,34 +40,40 @@ async function fill_template() {
             
             document.title = data.websiteName;
 
-    var boxes = document.getElementsByClassName("TimelineBox");
-        
-    for (var i = 0; i < boxes.length; i++) {    
-        boxes[i].addEventListener('click', async function() {
-            var articleIdElement = this.getElementsByClassName("articleID")[0];                
-            var articleId = articleIdElement.textContent;
-            console.log("Clicked");
-
+            ShowRelevantBtn();
             
-            console.log(articleId);
 
-            var transaction = db.transaction("articles", "readonly");
-            var table = transaction.objectStore("articles");
-            var clickedArticle = table.get(parseInt(articleId));
 
-            clickedArticle.onsuccess = function (event) { 
-                // console.log(clickedArticle);
-                // console.log(clickedArticle.result);
-                sessionStorage.setItem("Article",
-                    JSON.stringify(clickedArticle.result));
+            var boxes = document.getElementsByClassName("TimelineBox");
+                
+            for (var i = 0; i < boxes.length; i++) {    
+                boxes[i].addEventListener('click', async function() {
+                    var articleIdElement = this.getElementsByClassName("articleID")[0];                
+                    var articleId = articleIdElement.textContent;
+                    console.log("Clicked");
 
-            }
+                    
+                    console.log(articleId);
 
-            // 
-            window.location.href = "Article.html";
+                    var transaction = db.transaction("articles", "readonly");
+                    var table = transaction.objectStore("articles");
+                    var clickedArticle = table.get(parseInt(articleId));
+
+                    clickedArticle.onsuccess = function (event) { 
+                        // console.log(clickedArticle);
+                        // console.log(clickedArticle.result);
+                        sessionStorage.setItem("Article",
+                            JSON.stringify(clickedArticle.result));
+
+                    }
+
+                    // 
+                    window.location.href = "Article.html";
+                    
+                });
+            } 
             
-        });
-    }  
+             
     })
 
     
@@ -114,3 +122,30 @@ function DivideByEven(articles) {
     return articles;
 }
 
+async function ShowRelevantBtn() { 
+    console.log("Test");
+    var login = await document.getElementsByClassName("loginInfo");
+    var accounts = await document.getElementsByClassName("UserInfo");
+    var test = JSON.parse(sessionStorage.getItem("loggedInUser"));        
+    var data = JSON.parse(localStorage.getItem("loggedInUser")); 
+    if (test != null) { 
+        data = test;
+    }
+    
+            if (data != null) {
+                for (var i = 0; i < login.length; i++) {
+                    login[i].style.display = 'none';
+                }
+                for (var i = 0; i < accounts.length; i++) {
+                    accounts[i].style.display = '';
+                }
+            }
+            else { 
+                for (var i = 0; i < login.length; i++) {
+                    login[i].style.display = '';
+                }
+                for (var i = 0; i < accounts.length; i++) {
+                    accounts[i].style.display = 'none';
+                }
+            }
+}

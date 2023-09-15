@@ -1,4 +1,4 @@
-// var db;
+
 import { db, startUp } from './DatabaseCreation.js';
 
 submitRegistration();
@@ -54,7 +54,11 @@ async function submission() {
             var emailQuery = table.get(user.email);
             user.password = document.getElementById("password").value;
             user.confirmPassword = document.getElementById("confirmPassword").value;
-            user.check = document.getElementById("check").checked;
+            user.keepLoggedIn = document.getElementById("check").checked;
+            user.articles = [];
+            user.comments = [];
+            user.premiumMember = false;
+            
 
             var passwordWords = user.password.split(" ");
             var passwordNumbers = /\d/.test(user.password);

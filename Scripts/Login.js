@@ -1,4 +1,3 @@
-
 import { db, startUp } from './DatabaseCreation.js';
 
 submitLogin();
@@ -45,32 +44,43 @@ async function submission() {
         var usernameQuery = usernameIndex.get(user.username);            
         var emailQuery = table.get(user.username);
         user.password = document.getElementById("password").value;
-        user.check = document.getElementById("check").checked;
+        user.keepLoggedIn = document.getElementById("check").checked;
         
 
         
         user.password = stringToHash(user.password);
-
+        var usernameUser;
+        var emailUser;
+        var succesfulLogIn = false;
         usernameQuery.onsuccess = function () { 
             console.log("Username Info: ");
-            var test = usernameQuery.result;
-            console.log(test);
-            attemptLogin(test, user);
+            usernameUser = usernameQuery.result;
+
+            succesfulLogIn= attemptLogin(usernameUser, user) || succesfulLogIn; 
             
         }
             
 
         emailQuery.onsuccess = function () {
             console.log("Email Info: ");
-            var test = emailQuery.result;
-            console.log(test);
-            attemptLogin(test, user);
+            emailUser = emailQuery.result;
+            console.log(emailUser);
+            succesfulLogIn= attemptLogin(emailUser, user) || succesfulLogIn;
         }
 
-        transaction.oncomplete = function () {                
-            console.log("Closing DB");
-            // db.close();
-            window.location.href="Article.html";
+        transaction.oncomplete = function () {   
+            if (succesfulLogIn) {
+                console.log("Closing DB");
+                // db.close();
+                window.location.href="Article.html";
+            }
+            else if (usernameUser == null && emailUser == null) {
+                alert("Invalid Username/Email");
+            }
+            else { 
+                alert("Invalid Password");
+            }
+            
         };        
     });
 }
@@ -92,27 +102,30 @@ function stringToHash(string) {
     return hash;
 }
 
-function SaveLogin(user) { 
+function SaveLogin(user) {
+    console.log("Saving User");
     var userJson = JSON.stringify(user);
-    if (user.check) {
+    if (user.keepLoggedIn) {
         localStorage.setItem("loggedInUser", userJson);
     }
     else { 
         sessionStorage.setItem("loggedInUser", userJson);
         localStorage.removeItem("loggedInUser");
-
     }
 }
 
 function attemptLogin(test, user) { 
+    
+    console.log("Logged in with ",test, "And: ", user);
     if (test != undefined) {
         if (test.password == user.password) { 
-            console.log("Logged in");
-            if (user.check) { 
-                test.check = true;
+            console.log("Password Good!");
+            if (user.keepLoggedIn) { 
+                test.keepLoggedIn = true;
             }
             SaveLogin(test);
+            return true;
         }
-        return; 
+        return false; 
     }
 }
