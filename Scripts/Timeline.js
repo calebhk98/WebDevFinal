@@ -3,6 +3,10 @@ fill_template();
 
 async function fill_template() {
     var data = [];
+    var user = getLoggedInUser();
+    if (user!=null && user.lang != null) { 
+        document.documentElement.lang = user.lang;
+    }
     var lang = document.documentElement.lang;
     var generalInfo;
 
@@ -11,6 +15,7 @@ async function fill_template() {
     await startUp();
 
     articles = await FindArticles();
+    articles = articles.reverse();
     data.articles = DivideByEven(articles);
 
 
@@ -148,4 +153,14 @@ async function ShowRelevantBtn() {
                     accounts[i].style.display = 'none';
                 }
             }
+}
+
+function getLoggedInUser() { 
+    var sessionUser = JSON.parse(sessionStorage.getItem("loggedInUser"));        
+    var longTermUser = JSON.parse(localStorage.getItem("loggedInUser")); 
+    if (sessionUser != null) { 
+        longTermUser = sessionUser;
+    }
+    return longTermUser;
+
 }

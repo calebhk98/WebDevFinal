@@ -7,14 +7,63 @@ waitToStart();
 async function waitToStart() { 
     
     startUp().then(() => {
+        fill_template();
         waitForElm(".UserPage").then((elm) => { SetUp();});
     });
 }
 
 
+async function fill_template() {  
+    var data = {};
+    var user = getLoggedInUser();
+    if (user.lang != null) { 
+        document.documentElement.lang = user.lang;        
+    }
+    var lang = document.documentElement.lang;
+    data.articles = user.articles;
+    data.comments = user.comments;
+    var generalInfo;
+
+   
+    data.user = getLoggedInUser();
+    data.comments = data.comments.reverse();
+    
+    for (var c in data.comments) { 
+        var commentTime = data.comments[c].date;
+        data.comments[c].datePrint = new Date(commentTime).toLocaleDateString();
+    }
+    
+
+
+    await fetch("./Information/"+lang+"/WebsiteInfo.json")
+    .then((response) => response.json())
+        .then((json) => generalInfo = json);
+    
+
+    Object.assign(data, generalInfo);
+            
+
+
+    fetch('Header.html')
+        .then(response => response.text())
+        .then(headInfo => {
+            Handlebars.registerPartial('header', headInfo);
+            var template = Handlebars.compile(document.querySelector("#template").innerHTML);
+            var filled = template(data);
+            document.querySelector("#output").innerHTML = filled;    
+            ShowRelevantBtn();            
+    })
+    
+    document.title = data.websiteName + "-" + user.username;     
+     
+
+}
+
 function SetUp() {
     user = getLoggedInUser();
-    document.getElementById("chgPssBtn").onclick = changePassword;
+    document.getElementById("chgPssBtn").onclick = changePassword;    
+    document.getElementById("languageSelection").onchange = changeLanguage;
+    document.getElementById("languageSelection").value = document.documentElement.lang;
     if (user.premiumMember) { 
         document.getElementById("newArticleBtn").onclick = newArticle;
     }
@@ -31,7 +80,26 @@ function SetUp() {
     
     var user = getLoggedInUser();            
     document.getElementById("stayLoggedIn").checked = user.keepLoggedIn;
+    if (showUserArticle) {
+        displayArticles();
+    }
+    else { 
+        displayComments();
+    }
                
+}
+
+function changeLanguage() { 
+    var lang = document.getElementById("languageSelection").value;
+    document.documentElement.lang = lang;
+    var user = getLoggedInUser();
+    user.lang = lang;
+    updateUser(user);
+    
+
+    
+    location.reload();
+    console.log(lang);
 }
 
 function changePassword() { 
@@ -124,9 +192,14 @@ function deleteAccount() {
 
 function displayArticles() { 
     showUserArticle = true;
+    document.getElementById("personalComments").style.display = 'none';
+    document.getElementById("personalArticle").style.display = '';
+
 }
 function displayComments() { 
     showUserArticle = false;
+    document.getElementById("personalComments").style.display = '';
+    document.getElementById("personalArticle").style.display = 'none';
 }
 
 function logOut() { 
@@ -145,7 +218,20 @@ function getLoggedInUser() {
 
 }
 
+async function ShowRelevantBtn() { 
+    var login = await document.getElementsByClassName("loginInfo");
+    var accounts = await document.getElementsByClassName("UserInfo");
+    
 
+    
+    for (var i = 0; i < login.length; i++) {
+        login[i].style.display = 'none';
+    }
+    for (var i = 0; i < accounts.length; i++) {
+        accounts[i].style.display = '';
+    }
+    
+}
         
 
 

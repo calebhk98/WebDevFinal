@@ -34,11 +34,18 @@
         
         </div>
 
-    {{commentTitle}}
-
+    
+    {{#if user}}
+    <label for="comment">{{NewComment}}:</label>
+    <br>
+    <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
+    <button id="NewCommentBtn">{{Submit}}</button>
+    {{/if}}
+    <br>
+        {{commentTitle}}:
     <ul>
         {{#each comment}}
-        <li>{{this.author}} - {{this.text}} @ {{this.date}}</li>
+        <li>{{this.author}} - {{this.text}} @ {{this.datePrint}}</li>
         {{/each}}
 
     </ul>

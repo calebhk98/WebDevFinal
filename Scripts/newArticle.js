@@ -29,7 +29,7 @@ function Submit(event) {
 
     article.article = document.getElementById("Article").value;
     article.articleHeadline = document.getElementById("ArticleHeadline").value;    
-    article.author = user.email;
+    article.author = user.username;
     article.comment = [];
     article.date=document.getElementById("date").value;  
     article.desc=document.getElementById("desc").value;   
@@ -38,6 +38,8 @@ function Submit(event) {
 
     AddArticle(article);
     updateUser(user);
+    
+    window.location.href="Article.html";
 }
 
 //Uses this function from 
@@ -65,15 +67,9 @@ function waitForElm(selector) {
 function AddArticle(article) { 
     var transaction = db.transaction("articles", "readwrite");
     var table = transaction.objectStore("articles");
-    var articleJson = JSON.stringify(article); 
-
-   
-    sessionStorage.setItem("Article", articleJson);        
-    
-
-    var articleUpdateRequest = table.put(article);
-
-    
+    var articleJson = JSON.stringify(article);    
+    sessionStorage.setItem("Article", articleJson);  
+    var articleUpdateRequest = table.put(article);    
 }
 
 function getLoggedInUser() { 

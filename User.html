@@ -12,7 +12,7 @@
 
     <!-- A local copy of handlebars so that it works offline -->
     <script src="Scripts/HandlebarsCopy.js"></script>
-    <script type="module" src="Scripts/ArticleInfo.js"></script>
+    <!-- <script type="module" src="Scripts/ArticleInfo.js"></script> -->
     <script type="module" src="Scripts/User.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -31,41 +31,79 @@
 
 
     <div class="mx-auto middle UserPage">
-        <h1>Account</h1>
-        <p>Welcome Back {{user.username}}</p>
-        <p>Email: {{user.email}}</p>
-        <label for="changePassText">Password: </label>
+        <h1>{{Account}}</h1>
+        <p>{{WelcomeBack}} {{user.username}}</p>
+        <p>{{Email}}: {{user.email}}</p>
+        <label for="languageSelection">{{Language}}: </label>
+        <select id="languageSelection" name="languageSelection">
+            <option value="en"> English</option>
+            <option value="es"> Español</option>
+            <option value="jpn">日本語</option>
+            <option value="ita">Italiana</option>
+            <option value="de">Deutsch</option>
+            <option value="fr">Français</option>
+
+        </select>
+        <br>
+
+        <label for="changePassText">{{Password}}: </label>
         <input type="password" id="changePassText" name="changePassText">
-        <button id="chgPssBtn">Change Password</button>
+        <button id="chgPssBtn">{{ChangePassword}}</button>
         <i class="bi bi-eye-slash" id="togglePassword"></i>
         <br>
-        <p>Upgraded Account: {{user.premiumMember}}</p>
-        <button id="statusBtn">Change Status</button>
+        <p>{{UpgradedAccount}}: {{user.premiumMember}}</p>
+        <button id="statusBtn">{{ChangeStatus}}</button>
         {{#user.premiumMember}}
-        <button id="newArticleBtn">New Article</button>
+        <button id="newArticleBtn">{{NewArticle}}</button>
         {{/user.premiumMember}}
         <p> </p>
-        <button id="exportAccBtn">Export Account</button>
-        <button id="exportArtBtn">Export Articles</button>
-        <button id="exportCommBtn">Export Comments</button>
+        <button id="exportAccBtn">{{ExportAccount}}</button>
+        <button id="exportArtBtn">{{ExportArticle}}</button>
+        <button id="exportCommBtn">{{ExportComment}}</button>
         <p></p>
         <input type="checkbox" id="stayLoggedIn" name="stayLoggedIn">
-        <label for="stayLoggedIn">Stay Logged in</label><br>
+        <label for="stayLoggedIn">{{StayLoggedIn}}</label><br>
         
         <p></p>
-        <button id="delBtn">Delete Account</button>
+        <button id="delBtn">{{DeleteAccount}}</button>
         <p> </p>
-        <button id="logOutBtn">Log out</button>
+        <button id="logOutBtn">{{logOut}}</button>
         <p> </p>
 
-        <button id="viewArticleBtn">Articles</button>
-        <button id="viewCommBtn">Comments</button>
+        <button id="viewArticleBtn">{{Articles}}</button>
+        <button id="viewCommBtn">{{commentTitle}}</button>
         
         </div>
 
-        <p>ALL ARTICLES!</p>
+        
 
+        <div class="timeline" id="personalArticle">
+            {{#each articles}}            
+            <div class="TimelineBox leftty">
+                <div class="timelineSummary">
+                    <h2>{{this.articleHeadline}}</h2>
+                    <h4>{{this.desc}}</h4>
+                    <p>{{this.date}}</p>
+                    <p class="articleID">{{this.id}}</p>
+        
+                </div>
+            </div>      
+            {{/each}}
+        </div>
 
+        <div class="timeline" id="personalComments">
+            {{#each comments}}
+            <div class="TimelineBox leftty">
+                <div class="timelineSummary">
+                    <h2>{{this.datePrint}}</h2>
+                    <h4>{{this.articleHeadline}}</h4>
+                    <p>{{this.text}}</p>
+                    <p class="articleID">{{this.id}}</p>
+        
+                </div>
+            </div>
+            {{/each}}
+        </div>
     
 
     </script>

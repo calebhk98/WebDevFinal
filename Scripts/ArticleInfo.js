@@ -3,8 +3,13 @@ import { db, startUp } from './DatabaseCreation.js';
 
 fill_template();
 
-async function fill_template() {     
+async function fill_template() {  
+    startUp();
     var data;
+    var user = getLoggedInUser();
+    if (user != null && user.lang != null) { 
+        document.documentElement.lang = user.lang;
+    }
     var lang = document.documentElement.lang;
     data = JSON.parse(sessionStorage.getItem("Article"));
     var generalInfo;
@@ -14,8 +19,16 @@ async function fill_template() {
         await fetch("./Information/ArticleInfo.json")
         .then((response) => response.json())
             .then((json) => data = json);
+        //This verifies that the session storage will have an article
+        sessionStorage.setItem("Article", JSON.stringify(data));
     }
     data.user = getLoggedInUser();
+    data.comment = data.comment.reverse();
+    for (var c in data.comment) { 
+        var commentTime = data.comment[c].date;
+        data.comment[c].datePrint = new Date(commentTime).toLocaleDateString();
+    }
+    
 
 
     await fetch("./Information/"+lang+"/WebsiteInfo.json")
@@ -34,11 +47,36 @@ async function fill_template() {
             var template = Handlebars.compile(document.querySelector("#template").innerHTML);
             var filled = template(data);
             document.querySelector("#output").innerHTML = filled;    
-            ShowRelevantBtn();
+            ShowRelevantBtn();            
+            document.getElementById("NewCommentBtn").addEventListener('click', addComment);   
     })
     
-    document.title = data.websiteName + "-" + data.articleHeadline;       
+    document.title = data.websiteName + "-" + data.articleHeadline;     
+     
 
+}
+
+function addComment() { 
+    var user = getLoggedInUser();
+    var comment = {};
+    var article = JSON.parse(sessionStorage.getItem("Article"));
+    comment.text = document.getElementById("comment").value;
+    if (comment.text == "") { 
+        return;
+    }
+    console.log("Adding");
+    comment.author = user.username;
+    comment.date = Date.now();
+    comment.articleID = article.id;
+    comment.articleHeadline = article.articleHeadline;
+    
+    
+    user.comments.push(comment);
+    article.comment.push(comment);
+    document.getElementById("comment").value = "";
+    updateUser(user);
+    updateArticle(article);
+    location.reload();
 }
 
 
@@ -79,3 +117,31 @@ function getLoggedInUser() {
     return longTermUser;
 
 }
+
+function updateUser(user) { 
+    var transaction = db.transaction("users", "readwrite");
+    var table = transaction.objectStore("users");
+    var userJson = JSON.stringify(user); 
+
+    if (user.keepLoggedIn) {
+        localStorage.setItem("loggedInUser", userJson);                 
+    }
+    else { 
+        sessionStorage.setItem("loggedInUser", userJson);        
+    }  
+
+    var userUpdateRequest = table.put(user);
+
+    userUpdateRequest.onsuccess = function () {
+    }
+}
+
+function updateArticle(article) { 
+    var transaction = db.transaction("articles", "readwrite");
+    var table = transaction.objectStore("articles");
+    var articleJson = JSON.stringify(article);    
+    sessionStorage.setItem("Article", articleJson);  
+    var articleUpdateRequest = table.put(article);    
+}
+
+
