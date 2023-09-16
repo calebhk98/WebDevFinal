@@ -8,13 +8,24 @@ async function fill_template() {
         document.documentElement.lang = user.lang;
     }
     var lang = document.documentElement.lang;
+    var searchterm = JSON.parse(sessionStorage.getItem("searchTerm"));
     var generalInfo;
-
-    
-    var articles;
+    var articles=[];
     await startUp();
 
-    articles = await FindArticles();
+    if (searchterm != null && searchterm.tags != []) { 
+        for (var i in searchterm.tags) { 
+            var searchTermArticles = await FindArticlesbyTag(searchterm.tags[i].trim());
+            for (var j in searchTermArticles) { 
+                console.log(searchTermArticles[j]);
+                articles.push(searchTermArticles[j]);
+            }       
+        }
+    }
+    
+    
+
+    
     articles = articles.reverse();
     data.articles = DivideByEven(articles);
 
@@ -31,6 +42,7 @@ async function fill_template() {
     Object.assign(data, generalInfo);
     
    
+    console.log(data);
     
     
 
@@ -64,8 +76,6 @@ async function fill_template() {
                     var clickedArticle = table.get(parseInt(articleId));
 
                     clickedArticle.onsuccess = function (event) { 
-                        // console.log(clickedArticle);
-                        // console.log(clickedArticle.result);
                         sessionStorage.setItem("Article",
                             JSON.stringify(clickedArticle.result));
 
@@ -107,6 +117,28 @@ async function FindArticles() {
 
     }); 
 }
+async function FindArticlesbyTag(tag) { 
+    return new Promise((resolve, reject) => {
+        var transaction = db.transaction("articles", "readonly");
+        var table = transaction.objectStore("articles");
+        var articleDateIndex = table.index("article_tags");
+        var req = articleDateIndex.getAll(tag);  
+
+
+        
+        req.onsuccess = function (event) {
+            // The result can be accessed here safely
+            resolve(event.target.result);
+        }
+
+        // Set up an error handler
+        req.onerror = function (event) {
+            // Reject the promise with the error
+            reject(event.target.error);
+        }
+
+    }); 
+}
 
 
 function DivideByEven(articles) {     
@@ -127,6 +159,7 @@ function DivideByEven(articles) {
 }
 
 async function ShowRelevantBtn() { 
+    console.log("Test");
     var login = await document.getElementsByClassName("loginInfo");
     var accounts = await document.getElementsByClassName("UserInfo");
     var test = JSON.parse(sessionStorage.getItem("loggedInUser"));        

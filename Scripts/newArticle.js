@@ -21,10 +21,15 @@ function Submit(event) {
     event.preventDefault();
     var user = getLoggedInUser();
     
-    var transaction = db.transaction("articles", "readwrite");
-    var table = transaction.objectStore("articles");
+    // var transaction = db.transaction("articles", "readwrite");
+    // var table = transaction.objectStore("articles");
     var tagsString = document.getElementById("ArticleTags").value;
     var tags = tagsString.split(",");
+    for (var i in tags) { 
+        tags[i] = tags[i].trim(); 
+    }
+
+
     
 
     article.article = document.getElementById("Article").value;
