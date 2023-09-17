@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Needed for bootstrap -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>{{Website Title}}</title>
+
+<!-- A local copy of handlebars so that it works offline -->
+<script src="Scripts/HandlebarsCopy.js"></script>
+<script type ="module" src="Scripts/Timeline.js"></script>
+<script type="module" src="Scripts/Header.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<link href="StyleSheets/main.css" rel="stylesheet">
+<!-- My personal CSS -->
+</head>
+
+<body>
+    <script id="template" type="text/x-handlebars-template">
+        <!-- The header -->
+        {{>header}}    
+        <div class="p-5">
+            <h1>Report</h1>
+            <p>Caleb Kirschbaum</p>
+            <h3>Introduction: What is the essential story being told by your site and what type of structure did you choose to
+                implement?</h3>
+            <p>
+                My story is about a historian writing articles looking at the past. This website is open for anyone to create new
+                articles, and to comment on any article. So, it is kind of an open source news website, based in the future.
+            </p>
+            
+            <h3>Inspiration: State 3 things that have inspired you when creating your website (e.g. guest speakers, websites,
+                artists,
+                blogs).</h3>
+            <p>
+                I initially thought of this by thinking about my projects I create in my downtime. But some things that I’ve been
+                aware
+                of for some years that may have inspired me to do those project are similar. One is the website <a
+                    href="https://www.futuretimeline.net">www.futuretimeline.net</a>,
+                which while it has a different design, has a similar ideology. Another thing was seeing how most companies are
+                shifting
+                to a more mature look, such as McDonalds removing the red and yellow buildings and replacing them with gray. That
+                inspired me to make my website look more mature by adding fewer colors or animations. The last thing is probably a
+                youtuber/futurist speaker <a href="https://www.youtube.com/channel/UCZFipeZtQM5CKUjx6grh54g">Issac Arthur</a>. He
+                often does talks with the National Space Society and has been an instructor
+                for USAFA’s Space Policy. Watching his videos has caused me to constantly think about the future in recent terms, so
+                is
+                likely an inspiration I’ve used.
+            </p>
+            
+            <h3>Accessibility: State 3 ways in which your site is accessible.</h3>
+            <p>
+                My website is accessible by defaulting to gray based coloring. This means the color blind do not have to shift any
+                effort to changing the site to match their needs. My site is also designed to allow language translations with
+                relative
+                ease, as it already has English, Spanish, Japanese, Italian, German, and French translations available to anyone who
+                logs in. The site is also set up to allow screen readers to be able to read the site with relative ease. This allows
+                the
+                blind to also use the site.
+            </p>
+            
+            <h3>Learning: State 3 things you had to learn or find out to create your site. How did you achieve that?</h3>
+            <p>
+                I had to learn that a website can not write files on the client side, nor even browse through the files dynamically.
+                I
+                then had to learn how to utilize the localStorage, sessionStorage, and indexedDB in order to allow my website to act
+                as
+                if it had a server side. I also had to learn how to use mustache in order to allow dynamic recreation of the webpage
+                based on factors such as language and the number of articles or comments. I also learned how to use Bootstrap to
+                help
+                make the formatting appear more mature. I also had to learn how to utilize JS’s asynchronous behavior. Side features
+                that I had to find was waiting for an element to be available, turning a string to a hash for the passwords, and how
+                to
+                download an object as a JSON file.
+                I learned these by researching the individual problems, using sites such as geeksforgeeks, stackoverflow, github,
+                asking
+                peers in Stack overflow, or for some weird behaviors such as when creating a new indexedDB it runs the onUpgrade and
+                successful actions, I would use GPT to answer my questions, although it seemed to be much worse than other forms of
+                research.
+            </p>
+            
+            <h3>Evaluation I: What aspects of your work do you think were particularly successful? Why?</h3>
+            <p>
+                I think the dynamic features of being able to register, login, create a new article, leave a comment, and then log
+                out
+                or even delete your account was particularly successful. Ensuring all the different parts worked together was quite
+                impressive, and felt particularly amazing to get working. I also enjoyed how the timeline ended up looking, and how
+                the
+                dynamic click function works so cleanly, without focusing on any button or link.
+            </p>
+            
+            <h3>Evaluation II: What aspects of your work could be improved? How might you do things differently another time?</h3>
+            <p>
+                I wanted to add more features, such as:
+            <ul>
+                <li>clicking articles in your own account,</li>
+                <li>a button on each article to allow one to listen to the article,</li>
+                <li>an eye on the passwords to allow one to see their password,</li>
+                <li>allow uploading images to each article,</li>
+                <li>somehow to allow a forgot username and password,</li>
+                <li>add to the user a Blind and Deaf mode that would allow the website to work for each,</li>
+                <li>a Dark, Gray, and Light mode,</li>
+                <li>a font change per user,</li>
+                <li>a map that would allow you to see article only from certain regions,</li>
+                <li>and allow a user to move any components around as they wished</li>
+            </ul>
+            
+            If I were to do it differently, I would have started from the get go using indexedDB, having to refactor a lot of my
+            code to use it took a lot more time, that I could have use to implement these other functions. I would also probably add
+            more people to review the site to get more opinions on the looks, as my idea of what looks nice is not equivalent to
+            what the normal person considers nice.
+            </p>
+
+            <h3>Resources: What resources did you use in your work? List any sources of information, libraries, plugins, code or tools
+            (you should also indicate inclusions from other sources within your code using comments)</h3>
+            <p>
+                I utilized Mustache, Handlebars, Bootstrap frameworks. I also utilized indexedDB, localeStorage, and sessionStorage
+                heavily as tools. I used the string to hash function from
+                <a href="https://www.geeksforgeeks.org/how-to-create-hash-from-string-in-javascript/">https://www.geeksforgeeks.org/how-to-create-hash-from-string-in-javascript/</a> with no modifications. I used a function to
+                wait for an element to exist from this website
+                <a href="https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists">https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists</a> heavily, with no modifications. The last
+                major thing I used was a function which allowed one to download an object as a JSON string, with some modifications as
+                recommended in the comments from
+                <a href="https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser">https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser</a>.<br><br>
+                [1] Handlebarsjs.com, 'Handlebars Reference', 2023. [Online]. Available:
+                http://handlebarsjs.com/guide. [Accessed: 20 - 8 - 2023]<br>
+
+                [2] Mustache.github.io, 'Mustache.js Reference', 2023. [Online]. Available: https://mustache.github.io.
+                [Accessed: 20 - 8 - 2023]<br>
+                
+                [3] Getbootstrap.com, 'Bootstrap Documentation', 2023. [Online]. Available:
+                https://getbootstrap.com/docs/4.0/getting-started/introduction/. [Accessed: 20 - 8 - 2023]<br>
+
+                [4]GFG, Geeksforgeeks, 'How to create hash from string in JavaScript ?', 2023 [Online]. Available: https://www.geeksforgeeks.org/how-to-create-hash-from-string-in-javascript/<br>
+                [5]YW, Wang, 'How to wait until an element exists?', 2020 [Online]. Available: https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists<br>
+                [6]V, Volzotan, 'Download JSON object as a file from browser', 2020 [Online]. Available: https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser<br>
+
+            </p>
+
+            <h3>Appendices: Site map (if useful), wireframes and mock-up</h3>
+            <p>Since almsot all of the site is accessible form the header, a Site map is not useful</p>
+        </div>
+        
+        
+
+        <embed src="FinalInfo\framework.pdf" width="100%" height="2000"/>
+    </script>
+    <!-- Where the output will be -->
+    <div id="output"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+</body>
+</html>

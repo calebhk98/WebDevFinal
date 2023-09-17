@@ -5,8 +5,7 @@
     <!-- Needed for bootstrap -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
 
     <title>{{Website Title}}</title>
 
@@ -16,46 +15,51 @@
     <script type="module" src="Scripts/Header.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!-- My personal CSS -->
     <link href="StyleSheets/main.css" rel="stylesheet">
 
 </head>
 
 <body>
     <script id="template" type="text/x-handlebars-template">
-    {{>header}}
 
+        <!-- The header -->
+        {{>header}}
 
-    <div class="mx-auto p-3 article">
-        <p class="pb-4">{{date}}</p>
-        <p class="py-3">{{desc}}</p>
-        <img src={{img}}>
-        <p>{{img}}</p>
-        <div class="p-3">
-            {{{article}}}
+        <!-- Shows the article itself -->
+        <div class="mx-auto p-3 article">
+            <p class="pb-4">{{date}}</p>
+            <p class="py-3">{{desc}}</p>
+            <img src={{img}}>
+            <p>{{img}}</p>
+            <div class="p-3">
+                {{{article}}}   
+            </div>
+            <p>{{authorTitle}} {{author}} </p>        
         </div>
-        <p>{{authorTitle}} {{author}} </p>
+
+        <!-- The comment input box -->
+        <div class="px-5 py-1 mx-auto">
+            {{#if user}}
+            <label class="p-3 h3" for="comment"><b>{{NewComment}}:</b></label>
+            <br>
+            <textarea id="comment" class="mx-auto" name="comment" rows="4" cols="50"></textarea>
+            <button class="m-1" id="NewCommentBtn">{{Submit}}</button>
+            {{/if}}
+        </div>
         
-        </div>
+        <br><!--This is to signify there is a difference here  -->
 
-    <div class="px-5 py-1 mx-auto">
-        {{#if user}}
-        <label class="p-3" for="comment">{{NewComment}}:</label>
-        <br>
-        <textarea id="comment" class="mx-auto" name="comment" rows="4" cols="50"></textarea>
-        <button class="m-1" id="NewCommentBtn">{{Submit}}</button>
-        {{/if}}
-    </div>
-    
-    <br>
+        <!-- This is for all the comments -->
         <h2 class="p-2">{{commentTitle}}:</h2>
-    <ul>
-        {{#each comment}}
-        <li class="p-3">{{this.author}} - {{this.text}} @ {{this.datePrint}}</li>
-        {{/each}}
+        <ul>
+            {{#each comment}}
+            <li class="p-3">{{this.author}} - {{this.text}} @ {{this.datePrint}}</li>
+            {{/each}}
 
-    </ul>
-
+        </ul>
     </script>
+    <!-- Where the output will be -->
     <div id="output"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"

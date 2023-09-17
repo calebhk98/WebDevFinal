@@ -15,48 +15,44 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link href="StyleSheets/main.css" rel="stylesheet">
+    <link href="StyleSheets/main.css" rel="stylesheet"><!-- My personal CSS -->
 </head>
 
 <body>
     <script id="template" type="text/x-handlebars-template">
-    {{>header}}
+        <!-- The header -->
+        {{>header}}
 
-
-    <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="col-md-auto">
-                <h3>{{Login}}</h3>
-                <form  id="LoginForm">
-                    <div class="form-group">
-                        <label for="username">{{Username}}/{{Email}}</label>
-                        <input type="text" class="form-control" id="username" placeholder="{{UsernamePrompt}}" required>
-                    </div>
-                    <div class="form-group ">
-                        <label for="password">{{Password}}</label>
-                        <input type="password" class="form-control" id="password" placeholder="{{PasswordPrompt}}" required>
-                        <i class="bi bi-eye-slash" id="togglePassword"></i>
-                    </div>
-                    <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" id="check">
-                        <label class="form-check-label" for="check">{{RememberMe}}</label>
-                    </div>
-                    <button type="submit" class="LoginBtn btn btn-primary">{{Login}}</button>
-                </form>
+        <!-- Login form -->
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto">
+                    <h3>{{Login}}</h3>
+                    <form  id="LoginForm">
+                        <div class="form-group">
+                            <label for="username">{{Username}}/{{Email}}</label>
+                            <input type="text" class="form-control" id="username" placeholder="{{UsernamePrompt}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">{{Password}}</label>
+                            <input type="password" class="form-control" id="password" placeholder="{{PasswordPrompt}}" required>
+                            <i class="bi bi-eye-slash" id="togglePassword"></i>
+                        </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="check">
+                            <label class="form-check-label" for="check">{{RememberMe}}</label>
+                        </div>
+                        <button type="submit" class="LoginBtn btn btn-primary">{{Login}}</button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
     </script>
     <div id="output"></div>
-
-
+    <!-- Where the output will be -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
-
-    
-
 </body>
-
 </html>

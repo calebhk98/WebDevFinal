@@ -18,66 +18,81 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <link href="StyleSheets/main.css" rel="stylesheet">
+    <link href="StyleSheets/main.css" rel="stylesheet"><!-- My personal CSS -->
 
 </head>
 
 <body>
     <script id="template" type="text/x-handlebars-template">
-    {{>header}}
+        <!-- The header -->
+        {{>header}}     
 
-        
+        <div class="mx-auto middle UserPage p-3">
+            <h1>{{Account}}</h1>
+            <p>{{WelcomeBack}} {{user.username}}</p>
+            <p>{{Email}}: {{user.email}}</p>
 
+            <!-- The language selection -->
+            <label for="languageSelection">{{Language}}: </label>
+            <select id="languageSelection" name="languageSelection">
+                <option value="en"> English</option>
+                <option value="es"> Español</option>
+                <option value="jpn">日本語</option>
+                <option value="ita">Italiana</option>
+                <option value="de">Deutsch</option>
+                <option value="fr">Français</option>
 
+            </select>
+            <br>
+            <!-- The change password -->
+            <div>   
+                <label for="changePassText">{{Password}}: </label>
+                <input type="password" id="changePassText" name="changePassText">
+                <i class="bi bi-eye-slash" id="togglePassword"></i>
+                <button id="chgPssBtn">{{ChangePassword}}</button>
+                <br>
+            </div>
+            
 
+            <!-- Change whether the user is a paid user or not -->
+            <div class="py-2">
+                <p>{{UpgradedAccount}}: {{user.premiumMember}}</p>
+                <button id="statusBtn">{{ChangeStatus}}</button>
+                {{#user.premiumMember}}
+                <button id="newArticleBtn">{{NewArticle}}</button>
+                {{/user.premiumMember}}
+                <br>
+            </div>
+            
+            <!-- Export Region -->
+            <div class="py-3">
+                <button id="exportAccBtn">{{ExportAccount}}</button>
+                <button id="exportArtBtn">{{ExportArticle}}</button>
+                <button id="exportCommBtn">{{ExportComment}}</button>
+            </div>
 
-    <div class="mx-auto middle UserPage">
-        <h1>{{Account}}</h1>
-        <p>{{WelcomeBack}} {{user.username}}</p>
-        <p>{{Email}}: {{user.email}}</p>
-        <label for="languageSelection">{{Language}}: </label>
-        <select id="languageSelection" name="languageSelection">
-            <option value="en"> English</option>
-            <option value="es"> Español</option>
-            <option value="jpn">日本語</option>
-            <option value="ita">Italiana</option>
-            <option value="de">Deutsch</option>
-            <option value="fr">Français</option>
+            <!-- Logged in section -->
+            <div class="py-1">
+                <input  type="checkbox" id="stayLoggedIn" name="stayLoggedIn">
+                <label for="stayLoggedIn">{{StayLoggedIn}}</label><br>
+            </div>
+            
+            <!-- Delete or log out section -->
+            <div class="py-1">
+                <button id="delBtn">{{DeleteAccount}}</button>
+                <button id="logOutBtn">{{logOut}}</button><br>
+            </div>
 
-        </select>
-        <br>
-
-        <label for="changePassText">{{Password}}: </label>
-        <input type="password" id="changePassText" name="changePassText">
-        <button id="chgPssBtn">{{ChangePassword}}</button>
-        <i class="bi bi-eye-slash" id="togglePassword"></i>
-        <br>
-        <p>{{UpgradedAccount}}: {{user.premiumMember}}</p>
-        <button id="statusBtn">{{ChangeStatus}}</button>
-        {{#user.premiumMember}}
-        <button id="newArticleBtn">{{NewArticle}}</button>
-        {{/user.premiumMember}}
-        <p> </p>
-        <button id="exportAccBtn">{{ExportAccount}}</button>
-        <button id="exportArtBtn">{{ExportArticle}}</button>
-        <button id="exportCommBtn">{{ExportComment}}</button>
-        <p></p>
-        <input type="checkbox" id="stayLoggedIn" name="stayLoggedIn">
-        <label for="stayLoggedIn">{{StayLoggedIn}}</label><br>
-        
-        <p></p>
-        <button id="delBtn">{{DeleteAccount}}</button>
-        <p> </p>
-        <button id="logOutBtn">{{logOut}}</button>
-        <p> </p>
-
-        <button id="viewArticleBtn">{{Articles}}</button>
-        <button id="viewCommBtn">{{commentTitle}}</button>
-        
+            <!-- Swap what you are looking at section -->
+            <div class="py-1">
+                <button id="viewArticleBtn">{{Articles}}</button>
+                <button id="viewCommBtn">{{commentTitle}}</button>
+            </div>
+            
         </div>
 
-        
-
+            
+        <!-- The timeline for articles -->
         <div class="timeline" id="personalArticle">
             {{#each articles}}            
             <div class="TimelineBox leftty">
@@ -85,13 +100,13 @@
                     <h2>{{this.articleHeadline}}</h2>
                     <h4>{{this.desc}}</h4>
                     <p>{{this.date}}</p>
-                    <p class="articleID">{{this.id}}</p>
-        
+                    <p class="articleID">{{this.id}}</p>        
                 </div>
             </div>      
             {{/each}}
         </div>
 
+        <!-- The timeline for comments -->
         <div class="timeline" id="personalComments">
             {{#each comments}}
             <div class="TimelineBox leftty">
@@ -99,8 +114,7 @@
                     <h2>{{this.datePrint}}</h2>
                     <h4>{{this.articleHeadline}}</h4>
                     <p>{{this.text}}</p>
-                    <p class="articleID">{{this.id}}</p>
-        
+                    <p class="articleID">{{this.id}}</p>        
                 </div>
             </div>
             {{/each}}
@@ -109,11 +123,9 @@
 
     </script>
     <div id="output"></div>
-
+    <!-- Where the output will be -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
-
 </body>
-
 </html>

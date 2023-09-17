@@ -1,19 +1,20 @@
-<nav class="navbar navbar-expand-md bg-body-tertiary rounded" aria-label="Thirteenth navbar example">
+<nav class="navbar navbar-expand-md bg-body-tertiary rounded" aria-label="navbar">
     <div class="container-fluid">
-        
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample11"
-            aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- The hamburger menu -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#NavbarHamburger"
+            aria-controls="NavbarHamburger" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
+        <!-- The Headline when the window is  too big -->
         <a href="index.html" class="mx-auto d-block d-md-none navbar-brand">{{Headlines}}</a>
 
-
-        <div class=" collapse navbar-collapse d-md-flex" id="navbarsExample11">
-
+        <!-- What would go into the hamburger menu -->
+        <div class=" collapse navbar-collapse d-md-flex" id="NavbarHamburger">            
             <ul class="navbar-nav col-md-6">
+
+                <!-- The headlines by subject dropdown -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         {{subjectHeadlines}}
                     </a>
@@ -25,8 +26,10 @@
                         <li><a class="dropdown-item" href="#">{{politics}}</a></li>
                     </ul>
                 </li>
+
+                <!-- The Headlines by century -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         {{CenturyHeadlines}}
                     </a>
@@ -37,21 +40,31 @@
                         <li><a class="dropdown-item" href="#">1800</a></li>
                     </ul>
                 </li>
+
+                <!-- About US -->
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">{{aboutUs}}</a>
+                    <a class="nav-link active" aria-current="page" href="report.html">{{aboutUs}}</a>
                 </li>
+
+                <!-- Videos (Currently useless just an example) -->
                 <li class="nav-item">
                     <a class="nav-link" href="#">{{videos}}</a>
                 </li>
             </ul>
-            <a href="index.html" class="navbar-brand col-md-3 me-0" href="#">{{Headlines}}</a>
+
+            <!-- The Headline when the window is big enough Done like this to make it look nice regardless if shrunk or not-->
+            <a href="index.html" class="navbar-brand col-md-3 me-0" >{{Headlines}}</a>
+
+            <!-- The search bar -->
             <form class="col-12 col-md-auto mb-3 mb-md-0" id="SearchForm" role="search">
                 <input type="search" class="form-control" id="SearchBar"  placeholder="{{SearchPlaceholder}}" aria-label="Search">
             </form>
+            <!-- Login Buttons -->
             <div class="text-end loginInfo">
                 <a href="Login.html"><button type="button" class="btn btn-light text-dark mb-2">{{Login}}</button></a>
                 <a href="Register.html"><button type="button" class="btn btn-primary">{{Sign-up}}</button></a>
             </div>
+            <!-- The user profile picture when logged in, defaults to not displaying -->
             <div class="text-end UserInfo" style="display: none;">
                 <a href="User.html"><img src="Images/user-profile.png" alt="User Profile"></a> 
             </div>
