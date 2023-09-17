@@ -14,8 +14,9 @@ form i {
 }
 
 body {
-    background-color: #474e5d;
+    background-color: #313131;
     font-family: Helvetica, sans-serif;
+    color: #b1b1b1;
 }
 
 /* The actual timeline (the vertical ruler) */
@@ -44,6 +45,9 @@ body {
 
 .articleID{
     visibility: hidden;
+} 
+
+.article{
 }
 
 /* The actual timeline (the vertical ruler) */
@@ -64,6 +68,7 @@ body {
     position: relative;
     background-color: inherit;
     width: 50%;
+    color: #515151;
 }
 
 /* The circles on the timeline */

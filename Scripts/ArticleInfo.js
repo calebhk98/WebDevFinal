@@ -28,6 +28,9 @@ async function fill_template() {
         var commentTime = data.comment[c].date;
         data.comment[c].datePrint = new Date(commentTime).toLocaleDateString();
     }
+
+    data.article = data.article.replace(/\n/g, '<br>');
+    console.log(data);
     
 
 
@@ -47,8 +50,12 @@ async function fill_template() {
             var template = Handlebars.compile(document.querySelector("#template").innerHTML);
             var filled = template(data);
             document.querySelector("#output").innerHTML = filled;    
-            ShowRelevantBtn();            
-            document.getElementById("NewCommentBtn").addEventListener('click', addComment);   
+            ShowRelevantBtn();   
+            var commentBtn = document.getElementById("NewCommentBtn");
+            if (commentBtn) { 
+                commentBtn.addEventListener('click', addComment);  
+            }
+             
     })
     
     document.title = data.websiteName + "-" + data.articleHeadline;     

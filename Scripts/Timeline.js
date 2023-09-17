@@ -2,6 +2,8 @@ import { db, startUp } from './DatabaseCreation.js';
 fill_template();
 
 async function fill_template() {
+    
+    await startUp();
     var data = [];
     var user = getLoggedInUser();
     if (user!=null && user.lang != null) { 
@@ -12,7 +14,6 @@ async function fill_template() {
 
     
     var articles;
-    await startUp();
 
     articles = await FindArticles();
     articles = articles.reverse();
@@ -54,24 +55,15 @@ async function fill_template() {
                 boxes[i].addEventListener('click', async function() {
                     var articleIdElement = this.getElementsByClassName("articleID")[0];                
                     var articleId = articleIdElement.textContent;
-                    console.log("Clicked");
-
-                    
-                    console.log(articleId);
 
                     var transaction = db.transaction("articles", "readonly");
                     var table = transaction.objectStore("articles");
                     var clickedArticle = table.get(parseInt(articleId));
 
                     clickedArticle.onsuccess = function (event) { 
-                        // console.log(clickedArticle);
-                        // console.log(clickedArticle.result);
                         sessionStorage.setItem("Article",
                             JSON.stringify(clickedArticle.result));
-
                     }
-
-                    // 
                     window.location.href = "Article.html";
                     
                 });

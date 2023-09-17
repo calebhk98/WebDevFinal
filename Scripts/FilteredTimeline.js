@@ -17,10 +17,17 @@ async function fill_template() {
         for (var i in searchterm.tags) { 
             var searchTermArticles = await FindArticlesbyTag(searchterm.tags[i].trim());
             for (var j in searchTermArticles) { 
-                console.log(searchTermArticles[j]);
                 articles.push(searchTermArticles[j]);
             }       
         }
+    }
+
+    if (searchterm != null && searchterm.century != null) { 
+        var searchTermArticles = await FindArticlesbyCentury(searchterm.century);
+
+        for (var j in searchTermArticles) { 
+            articles.push(searchTermArticles[j]);
+        }   
     }
     
     
@@ -42,7 +49,6 @@ async function fill_template() {
     Object.assign(data, generalInfo);
     
    
-    console.log(data);
     
     
 
@@ -66,10 +72,8 @@ async function fill_template() {
                 boxes[i].addEventListener('click', async function() {
                     var articleIdElement = this.getElementsByClassName("articleID")[0];                
                     var articleId = articleIdElement.textContent;
-                    console.log("Clicked");
 
                     
-                    console.log(articleId);
 
                     var transaction = db.transaction("articles", "readonly");
                     var table = transaction.objectStore("articles");
@@ -121,8 +125,8 @@ async function FindArticlesbyTag(tag) {
     return new Promise((resolve, reject) => {
         var transaction = db.transaction("articles", "readonly");
         var table = transaction.objectStore("articles");
-        var articleDateIndex = table.index("article_tags");
-        var req = articleDateIndex.getAll(tag);  
+        var articleTagIndex = table.index("article_tags");
+        var req = articleTagIndex.getAll(tag);  
 
 
         
@@ -140,6 +144,32 @@ async function FindArticlesbyTag(tag) {
     }); 
 }
 
+
+async function FindArticlesbyCentury(century) { 
+    return new Promise((resolve, reject) => {
+        var articles = [];
+        var transaction = db.transaction("articles", "readonly");
+        var table = transaction.objectStore("articles");
+        var articleDateIndex = table.index("article_date");
+        var startDate = new Date(century, 0, 1).toISOString().split('T')[0];
+        var endDate = new Date(parseInt(century) + 100, 0, 1).toISOString().split('T')[0];
+        var range = IDBKeyRange.bound(startDate, endDate);
+
+        articleDateIndex.openCursor(range).onsuccess = (event) => { 
+            var cursor = event.target.result;
+            if (cursor) {
+                articles.push(cursor.value);
+                cursor.continue();
+            }
+            else { 
+                resolve(articles);
+            }
+        }
+        articleDateIndex.openCursor(range).onerror = (event) => {
+            reject('error');
+        }
+    }); 
+}
 
 function DivideByEven(articles) {     
     var even = 0;
@@ -159,7 +189,6 @@ function DivideByEven(articles) {
 }
 
 async function ShowRelevantBtn() { 
-    console.log("Test");
     var login = await document.getElementsByClassName("loginInfo");
     var accounts = await document.getElementsByClassName("UserInfo");
     var test = JSON.parse(sessionStorage.getItem("loggedInUser"));        

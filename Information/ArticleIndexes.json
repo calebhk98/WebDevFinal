@@ -1,5 +1,7 @@
 {
     "articles": [
-        "Articles/2000/2020/2020/LoremIpsum.json"
+        "Articles/2000/2020/2020/LoremIpsum.json", 
+        "Articles/2000/2020/2023/Texta.json",
+        "Articles/2000/2020/2023/USFood"
     ]
 }

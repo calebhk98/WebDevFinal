@@ -1,10 +1,10 @@
 export var db;
-
-startUp();
+var articlesReady = false;
  
 
-export async function startUp() { 
-    if (db) return;
+export async function startUp() {
+    return new Promise((resolve, reject) => {
+    if (db) resolve(db);
     //Saves whichever indexedDB we need
     var indexedDB =
         window.indexedDB ||
@@ -14,7 +14,7 @@ export async function startUp() {
         window.shimIndexedDB;
     
     if (!indexedDB) {
-        console.log("IndexedDB could not be found in this browser.");
+        console.error("IndexedDB could not be found in this browser.");
     }
 
     
@@ -26,7 +26,7 @@ export async function startUp() {
         console.error(event);
     };
 
-    const openPromise = new Promise((resolve, reject) => {
+        
         //If the database already exists
         request.onsuccess = (event) => {
             db = event.target.result;
@@ -41,88 +41,93 @@ export async function startUp() {
             db.onerror = (event) => {
                 console.error(`Database error: ${event.target.errorCode}`);
             };
-            resolve();
+            resolve(db);
         };
 
         //If the database doesn't exist yet
-        request.onupgradeneeded = function () {
+        request.onupgradeneeded = function ()  {
             //Sets the table for articles       
             db = request.result;
-            createArticleTable();
-            createUserTable();
-        
+            createArticleTable().then(() => {
+                createUserTable().then(() => { 
+                    GrabSavedArticles().then(
+                        previousArticles => {
+                            var transaction = db.transaction("articles", "readwrite");
+                            var table = transaction.objectStore("articles");
+                            for (var particle in previousArticles) {
+                                table.add(previousArticles[particle]);
+                            }
+                            articlesReady = true;
+                            resolve(db);       
+                            alert("Reloading");
+                            location.reload();
+
+                    })
+                    
+                })
+            });
+            
         };
     });
     
-    return openPromise;
     
 }
 
 
 function createArticleTable() { 
-    console.log("Creating Articles")
-    var articles = db.createObjectStore("articles", { keyPath: "id", autoIncrement: true });
+    return new Promise((resolve, reject) => { 
+        
+        
+        var articles = db.createObjectStore("articles", { keyPath: "id", autoIncrement: true });
+
+        
+
+        //Create a search so we can look by some different values
+        articles.createIndex("article_ArticleHeadline", "articleHeadline");  
+        articles.createIndex("article_date", "date");  
+        articles.createIndex("article_author", "author"); 
+        articles.createIndex("article_tags", "tags", { unique: false, multiEntry: true });  
+        
+        articles.onerror = function (event) {
+        };
+        resolve();
+    })
 
     
-
-    //Create a search so we can look by some different values
-    articles.createIndex("article_ArticleHeadline", "articleHeadline");  
-    articles.createIndex("article_date", "date");  
-    articles.createIndex("article_author", "author"); 
-    articles.createIndex("article_tags", "tags", { unique: false, multiEntry: true });  
-    
-    articles.onerror = function (event) {
-        console.log("Error?");
-    };
-
-    //Weird behaviour where this has to be outside the onComplete function when you run createArticleTable before the createUserTable
-    GrabSavedArticles().then(
-            previousArticles => {
-                var transaction = db.transaction("articles", "readwrite");
-                var table = transaction.objectStore("articles");
-                for (var particle in previousArticles) {
-                    console.log("Adding Article: ",previousArticles);
-                    table.add(previousArticles[particle]);
-                }
-            } 
-        )
-
-    articles.transaction.oncomplete = function (event) {   
-        console.log("Here!");
-    }
 }
 
 function createUserTable() { 
+    return new Promise((resolve, reject) => { 
+        var users = db.createObjectStore("users", { keyPath: "email" });
+
+        //Create a search so we can look by username
+        users.createIndex("users_username", "username", { unique: true });           
+       
+            GrabSavedUsers().then(
+                previousUsers => {
+                    var transaction = db.transaction("users", "readwrite");
+                    var table = transaction.objectStore("users");
+                    for (var puser in previousUsers) {
+                        table.add(previousUsers[puser]);
+                    }
+                    resolve();
+                } 
+            )
+        // }
+        users.transaction.onerror = function (event) {   
+            reject();
+        }
+
+
+    });
     
-    console.log("Creating Users");
-    var users = db.createObjectStore("users", { keyPath: "email" });
-
-    //Create a search so we can look by username
-    users.createIndex("users_username", "username", { unique: true });   
-    
-    users.transaction.oncomplete = function (event) { 
-
-        GrabSavedUsers().then(
-            previousUsers => {
-                var transaction = db.transaction("users", "readwrite");
-                var table = transaction.objectStore("users");
-                for (var puser in previousUsers) {
-                    console.log("Adding User: ",previousUsers);
-                    table.add(previousUsers[puser]);
-                }
-            } 
-        )
-        
-             
-
-    }
 }
 
-async function GrabSavedArticles() { 
+async function GrabSavedArticles() {
     var articles=[];
     var even = 0;
-    var pair = [];
     var articlePaths = [];
+    var massArticlePath = '../Articles/MassArticles.json';
     
     
     await fetch('../Information/ArticleIndexes.json')
@@ -134,11 +139,39 @@ async function GrabSavedArticles() {
         });
     
     
-    for (var i in articlePaths) { 
-        await fetch(articlePaths[i])
+    await grabArticlesFromPath(articlePaths);
+    even = articlePaths.length % 2;
+    
+    await fetch(massArticlePath)
+            .then(response => response.json())
+        .then(articleData => {
+            for (var i in articleData) { 
+                var test = articleData[i];
+                                               
+                if (even) {
+                    test.even = true;
+                    even = 0;
+                }
+                else {
+                    test.even = false;                      
+                    even = 1;
+                }
+                articles.push(test);
+            }
+                
+        });
+    
+    
+    return articles;
+}
+async function grabArticlesFromPath(path) { 
+    var even = 0;
+    var articles = [];
+    for (var i in path) { 
+        await fetch(path[i])
             .then(response => response.json())
             .then(articleData => {
-                pair[even] = articleData;
+                
                 var test = articleData;
                                                
                 if (even) {
@@ -152,8 +185,6 @@ async function GrabSavedArticles() {
                 articles.push(test);
             });
     }
-    
-    
     
     return articles;
 }

@@ -1,19 +1,16 @@
-import { db, startUp } from './DatabaseCreation.js';
+// import { db, startUp } from './DatabaseCreation.js';
 var showUserArticle = true;
-
 waitToStart();
 
+
 async function waitToStart() { 
-    
-    startUp().then(() => {
-        
-    
-        waitForElm("#SearchForm").then((elm) => { SetUp();});
-    });
+    waitForElm("#SearchForm").then((elm) => { SetUp();});
 }
 
 function SetUp() {
     document.getElementById("SearchForm").onsubmit = Search;    
+    document.getElementById("CenturyDropdown").addEventListener('click', SeacrhByCentury);
+    document.getElementById("SubjectDropdown").addEventListener('click', SeacrhBySubject);
                
 }
 
@@ -28,9 +25,24 @@ function Search(event) {
     for (var i in Search.tags) { 
         Search.tags[i] = Search.tags[i].trim();
     }
-    sessionStorage.setItem("searchTerm", JSON.stringify(Search));
+    lookUp(Search);
     
-    window.location.href = "FilteredTimeline.html";
+}
+
+function SeacrhByCentury(event) { 
+    var Search = {};
+    Search.century = event.target.textContent;
+    lookUp(Search);
+
+}
+function SeacrhBySubject(event) { 
+    var Search = {};
+    event.preventDefault();
+    var searchTerm = event.target.textContent;
+    Search.tags = [];
+    Search.tags[0] = searchTerm;
+    lookUp(Search);
+
 }
 
 //Uses this function from 
@@ -54,3 +66,8 @@ function waitForElm(selector) {
         });
     });
 }
+
+function lookUp(search) { 
+    sessionStorage.setItem("searchTerm", JSON.stringify(search));    
+    window.location.href = "FilteredTimeline.html";
+}   
